@@ -1,0 +1,30 @@
+{
+  "name": "http-routing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristinhortsch/http-routing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kristinhortsch/http-routing/issues"
+  },
+  "homepage": "https://github.com/kristinhortsch/http-routing#readme",
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "jest": "^23.6.0",
+    "supertest": "^3.4.1"
+  },
+  "dependencies": {
+    "superagent": "^4.1.0"
+  }
+}
