@@ -1,0 +1,33 @@
+{
+  "name": "http-routing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "test:watch": "npm run test -- --watch",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paigeegorry/http-routing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paigeegorry/http-routing/issues"
+  },
+  "homepage": "https://github.com/paigeegorry/http-routing#readme",
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.9",
+    "supertest": "^3.4.1"
+  },
+  "dependencies": {
+    "superagent": "^4.1.0"
+  }
+}
