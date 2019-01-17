@@ -156,4 +156,16 @@ describe('app tests', () => {
         expect(body).toHaveLength(4);
       });
   });
+
+  it('gets a tweet by id', () => {
+    return createTweet('kristin1')
+      .then((createdTweet) => {
+        const id = createdTweet._id;
+        return request(app)
+          .get(`/tweets/${id}`);
+      })
+      .then(res => {
+        expect(res.body.handle).toContain('kristin1');
+      });
+  });
 });
