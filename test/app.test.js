@@ -63,24 +63,23 @@ describe('app tests', () => {
             expect(res.body._id).toEqual(body._id);
           });
       });
-      
+  });
+  it('updates a person by id', () => {
+    return createPerson('Tyler')
+      .then(({ body }) => {
+        return request(app)
+          .put(`/people/${body._id}`)
+          .send({
+            name: body.name,
+            age: body.age,
+            favoriteColor: 'blue',
+            _id: body._id
+          })
+          .then(res => {
+            expect(res.body.favoriteColor).toEqual('blue');
+          });
+      });
   });
 });
 
-// let id = '';
-//     return request(app)
-//       .post('/people')
-//       .send({
-//         name: 'Uncle Bob',
-//         age: 100,
-//         favoriteColor: 'red'
-//       })
-//       .then(res => {
-//         id = res.body._id;
-//         console.log('this is the id:', id);
-//       })
-//       .get(`/people/${id}`)
-//       .then(({ body }) => {
-//         console.log('body', body);
-//         expect(body._id).toEqual(id);
-//       });
+
