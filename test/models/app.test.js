@@ -101,12 +101,9 @@ describe('gets people', () => {
         return request(app)
           .delete(`/people/${id}`)
           .then(res => {
-            return request(app) 
-              .get(`/people/${id}`)
-              .then(res => {
-                expect(res.status).toEqual(200);
-              });
+            expect(res.status).toEqual(200);
           });
       });
   });
 });
+
