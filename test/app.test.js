@@ -3,13 +3,13 @@ const rimraf = require('rimraf');
 const request = require('supertest');
 const app = require('../lib/app');
 
-const createPerson = (name, age = 100) => {
+const createPerson = (name, age = 10) => {
   return request(app)
     .post('/people')
     .send({
       name,
       age: age,
-      favoriteColor: 'red'
+      favoriteColor: 'gold'
     })
     .then(res => res.body);
 };
@@ -25,19 +25,24 @@ describe('app tests', () => {
     mkdirp('./data/people', done);
   });
 
+  afterAll(done => {
+    createPerson('booboo face');
+    done();
+  });
+
   it('creates a person', () => {
     return request(app)
       .post('/people')
       .send({
-        name: 'Uncle bob',
-        age: 100,
-        favoriteColor: 'red'
+        name: 'Steve Jobs',
+        age: 10,
+        favoriteColor: 'green'
       })
       .then(res => {
         expect(res.body).toEqual({
-          name: 'Uncle bob',
-          age: 100,
-          favoriteColor: 'red',
+          name: 'Steve Jobs',
+          age: 10,
+          favoriteColor: 'green',
           _id: expect.any(String)
         });
       });
@@ -64,8 +69,8 @@ describe('app tests', () => {
           .then(res => {
             expect(res.body).toEqual({
               name: 'cari',
-              age: 100,
-              favoriteColor: 'red',
+              age: 10,
+              favoriteColor: 'gold',
               _id
             });
           });
@@ -91,7 +96,6 @@ describe('app tests', () => {
   });
 
   it('can delete a person with :id and returns the delete count', () => {
-    createPerson('jan'); 
     return createPerson('carl')
       .then(personWhoWasCreated => {
         const _id = personWhoWasCreated._id;
