@@ -55,22 +55,34 @@ describe('app tests', () => {
       });
   });
   it('gets a person by id', () => {
-    let id = '';
-    return request(app)
-      .post('/people')
-      .send({
-        name: 'Uncle Bob',
-        age: 100,
-        favoriteColor: 'red'
-      })
-      .then(res => {
-        id = res.body._id;
-      })
-      .get(`/people/${id}`)
+    return createPerson('Tyler')
       .then(({ body }) => {
-        console.log('body', body);
-        expect(body._id).toEqual(id);
+        console.log('body\n\n\n\n\n', body);
+        return request(app)
+          .get(`/people/${body._id}`)
+          .then(res => {
+            console.log('id\n\n\n\n\n', body._id);
+            console.log('res', res);
+          });
       });
+      
   });
 });
 
+// let id = '';
+//     return request(app)
+//       .post('/people')
+//       .send({
+//         name: 'Uncle Bob',
+//         age: 100,
+//         favoriteColor: 'red'
+//       })
+//       .then(res => {
+//         id = res.body._id;
+//         console.log('this is the id:', id);
+//       })
+//       .get(`/people/${id}`)
+//       .then(({ body }) => {
+//         console.log('body', body);
+//         expect(body._id).toEqual(id);
+//       });
