@@ -89,7 +89,7 @@ describe('app tests', () => {
             name: 'Kate D',
             job: 'developer',
             pets: 'Kaiya and Kingsly',
-            _id: id
+            id: id
           })
           .then(() => {
             return request(app)
@@ -105,4 +105,17 @@ describe('app tests', () => {
           });
       });
   });
+
+  it('gets a person by id and deletes that person', () => {
+    return makePerson('Kate Delete')
+      .then(personToDelete => {
+        const id = personToDelete._id;
+        return request(app)
+          .delete(`/people/${id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+          });
+      });
+  });
+
 });
