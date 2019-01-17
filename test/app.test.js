@@ -55,6 +55,7 @@ describe('app tests', () => {
       });
   });
   it('gets a person by id', () => {
+    let id = '';
     return request(app)
       .post('/people')
       .send({
@@ -63,8 +64,12 @@ describe('app tests', () => {
         favoriteColor: 'red'
       })
       .then(res => {
-        const id = res.body._id;
-        
+        id = res.body._id;
+      })
+      .get(`/people/${id}`)
+      .then(({ body }) => {
+        console.log('body', body);
+        expect(body._id).toEqual(id);
       });
   });
 });
