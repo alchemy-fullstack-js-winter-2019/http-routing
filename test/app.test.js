@@ -1,8 +1,18 @@
-const mkdirp = require('mkdirp')
-const rimraf = require('rimraf')
+const mkdirp = require('mkdirp');
+const rimraf = require('rimraf');
 const request = require('supertest');
 const app = require('../lib/app');
-const People = require('../lib/model/People');
+
+const createPerson = (name) => {
+  return request(app)
+    .post('/people')
+    .send({
+      name: name,
+      age: 100,
+      favoriteColor: 'red'
+    })
+    .then(res => res.body);
+};
 
 describe('app tests', () => {
   beforeEach(done => {
@@ -10,11 +20,13 @@ describe('app tests', () => {
       done(err);
     });
   });
+
   beforeEach(done => {
     mkdirp('./data/people', err => {
       done(err);
     });
   });
+
   it('creates a person', () => {
     return request(app)
       .post('/people')
@@ -31,5 +43,24 @@ describe('app tests', () => {
           _id: expect.any(String)
         });
       });
+  });
+
+  it('gets a list of people from our db', () => {
+    const namesToCreate = ['ryan', 'ryan1', 'ryan2', 'ryan3'];
+    return Promise.all(namesToCreate.map(createPerson))
+      .then(() => {
+        return request(app)
+          .get('/people');
+      })
+      .then(({ body }) => {
+        expect(body).toHaveLength(4);
+      });
+  });
+
+  it('gets a person by id', () => {
+    return createPerson('ryan')
+      .then(personWhoWasCreated => {
+
+      })
   });
 });
