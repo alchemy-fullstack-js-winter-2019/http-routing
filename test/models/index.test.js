@@ -1,6 +1,6 @@
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
-const Store = require('../lib/index');
+const Store = require('../../lib/models/index');
 
 describe('Store', () => {
   let store = null;
@@ -86,3 +86,4 @@ describe('Store', () => {
     });
   });
 });
+
