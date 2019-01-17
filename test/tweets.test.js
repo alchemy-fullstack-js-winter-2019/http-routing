@@ -8,7 +8,7 @@ const makeTweet = (text) => {
   return request(app)
     .post('/people')
     .send({
-      name: 'katerj',
+      handle: 'katerj',
       tweet: 'Yay, tomorrow is Friday'
     })
     .then(res => res.body);
@@ -28,4 +28,22 @@ describe('tweets test', () => {
       done(err);
     });
   });
+
+  it('creates a new tweet', () => {
+    return request(app)
+      .post('/tweets')
+      .send({
+        handle: 'katerj',
+        tweet: 'Yay, tomorrow is Friday'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'katerj',
+          tweet: 'Yay, tomorrow is Friday',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+
 });
