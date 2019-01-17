@@ -56,25 +56,52 @@ describe('app tests', () => {
   it('gets a person by id', () => {
     return createPerson('teonna')
       .then(createdPerson => {
-        const id = createdPerson._id
-        console.log(id);
+        const id = createdPerson._id;
         return request(app)
           .get(`/people/${id}`)
       })
-      .then(({ body }) => {
-        expect(body.name).toEqual('teonna');
+      .then(res => {
+        expect(res.body.name).toEqual('teonna');
       })
   })
-  // it('get a person by id and updates', () => {
-  //   return createPerson('tbird')
-  //     .then(createdPerson => {
-  //       const id =  createdPerson._id
-  //       return request(app)
-  //         .get(`/people/${id}`)
-  //     })
-  //     .then(updatedPerson => {
-      
-  //       .put()
-  //     })
-  // })
-});
+  it('updates by id', () => {
+    return createPerson('tt')  
+      .then(createdPerson => {
+        const id = createdPerson._id;
+        return request(app)
+          .put(`/people/${id}`)
+          .send({
+            name: 'tt1',
+            age: 31,
+            favoriteColor: 'purple',
+            id: id
+          })
+          .then(() => {
+            return request(app)
+              .get(`/people/${id}`)
+              .then(res => {
+                expect(res.body).toEqual({
+                  name: 'tt1',
+                  age: 31,
+                  favoriteColor: 'purple',
+                  _id: id
+                })
+            })
+          })
+      })
+
+  })
+  it('deletes by id', () => {
+    return createPerson ('deletedTeonna')
+      .then(createdPerson => {
+        const id = createdPerson._id;
+        return request(app)
+          .delete(`/people/${id}`)
+      .then(res => {
+        expect(res.body).toEqual({ deleted: 1})
+      })
+      })
+  })
+})
+
+
