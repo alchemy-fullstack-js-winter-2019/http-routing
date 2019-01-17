@@ -66,18 +66,43 @@ describe('app tests', () => {
     return makePerson('Kate4')
       .then(personMade => {
         const id = personMade._id;
-        console.log('PERSON CREATED', personMade);
         return request(app)
           .get(`/people/${id}`);
       })
       .then(res => {
-        console.log('RES', res);
         expect(res.body).toEqual({
           name: 'Kate4',
           job: 'web developer',
           pets: 'Kaiya & Kingsly',
           _id: expect.any(String)
         });
+      });
+  });
+
+  it('gets a person by id and updates', () => {
+    return makePerson('Kate5')
+      .then(personMade => {
+        const id = personMade._id;
+        return request(app)
+          .put(`/people/${id}`)
+          .send({
+            name: 'Kate Dameron',
+            job: 'developer',
+            pets: 'Kaiya & Kingsly',
+            _id: id
+          })
+          .then(() => {
+            return request(app)
+              .get(`/people/${id}`);
+          })
+          .then(res => {
+            expect(res.body).toEqual({
+              name: 'Kate Dameron',
+              job: 'developer',
+              pets: 'Kaiya & Kingsly',
+              _id: id
+            });
+          });
       });
   });
 });
