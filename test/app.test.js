@@ -91,4 +91,15 @@ describe('people', () => {
         });
       });
   });
+
+  it('can delete a person', () => {
+    return createPerson('jello')
+      .then(({ body }) => {
+        return request(app)
+          .delete(`/people/${body._id}`);
+      })
+      .then(({ body }) => {
+        expect(body).toEqual({ deleted: 1 });
+      });
+  });
 });
