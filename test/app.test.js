@@ -161,6 +161,24 @@ describe('tweets tests', () => {
           });
       });
   });
+  it('updates an existing tweet by id', () => {
+    return createTweet('tyler', 'Thank you Kayne! Very cool!')
+      .then(({ body }) => {
+        return request(app)
+          .put(`/tweets/${body._id}`)
+          .send({
+            handle: 'tyler',
+            message: 'Testing testing 123'
+          })
+          .then(res => {
+            expect(res.body).toEqual({
+              handle: 'tyler',
+              message: 'Testing testing 123',
+              _id: body._id
+            });
+          });
+      });
+  });
 });
 
 
