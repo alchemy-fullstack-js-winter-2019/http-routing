@@ -3,6 +3,18 @@ const app = require('../lib/app');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 
+const createPerson = (name) => {
+  return request(app)
+    .post('/people')
+    .send({
+      name: name,
+      age: 80,
+      favoriteColor: 'blue'
+    })
+    .then(res => res.body);
+};
+
+
 describe('app tests', () => {
   // beforeEach(done => {
   //   rimraf('./data/people', err => {
@@ -33,4 +45,17 @@ describe('app tests', () => {
         });
       });
   });
+
+  it('gets a list of people from our db', () => {
+    const namesToCreate = ['abel', 'abel1', 'abel2', 'abel3'];
+    return Promise.all(namesToCreate.map(createPerson)) 
+      .then(() => {
+        return request(app)
+          .get('/people');
+      })
+      .then(({ body }) => {
+        expect(body).toHaveLength(4);
+      });
+  });
 });
+
