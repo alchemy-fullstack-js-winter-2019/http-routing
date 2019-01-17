@@ -75,15 +75,19 @@ describe('people', () => {
           .put(`/people/${body._id}`);
       })
       .then(({ body }) => {
-        return request(app)
-          .get(`/people/${body._id}`);
+        return Promise.all([
+          Promise.resolve(body._id),
+          request(app)
+            .get(`/people/${body._id}`, () => {
+            })
+        ]);
       })
-      .then(({ body }) => {
+      .then(([_id, { body }]) => {
         expect(body).toEqual({
           name: 'banana',
           age: '20',
           favoriteColor: 'blue',
-          _id: expect.any(String)
+          _id
         });
       });
   });
