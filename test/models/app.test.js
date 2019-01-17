@@ -53,20 +53,43 @@ describe('gets people', () => {
         expect(body).toHaveLength(4);
       });
   });
-});
-it('gets a person by id', () => {
-  return createPerson('marcy1')
-    .then(personWhoWasCreated => {
-      const id = personWhoWasCreated._id;
-      return request(app)
-        .get(`/people/${id}`);
-    })
-    .then(res => {
-      expect(res.body).toEqual({
-        name: 'marcy1',
-        age: 40,
-        favoriteColor: 'Periwinkle',
-        _id: expect.any(String)
+  it('gets a person by id', () => {
+    return createPerson('marcy1')
+      .then(personWhoWasCreated => {
+        const id = personWhoWasCreated._id;
+        return request(app)
+          .get(`/people/${id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'marcy1',
+          age: 40,
+          favoriteColor: 'Periwinkle',
+          _id: expect.any(String)
+        });
       });
-    });
+  });
+  it('finds by Id and updates', () => {
+    return createPerson('marcy1')
+      .then(personWhoWasCreated => {
+        const id = personWhoWasCreated._id;
+        const updatedObject = ({ name: 'marcy2',
+          age: 40,
+          favoriteColor: 'Periwinkle',
+          _id: expect.any(String) });
+        return request(app) 
+          .put(`/people/${id}`)
+          .send(updatedObject)
+          .then(res => {
+            expect(res.body).toEqual({
+              name: 'marcy2',
+              age: 40,
+              favoriteColor: 'Periwinkle',
+              _id: id
+            });
+          });
+      }); 
+  });
 });
+
+
