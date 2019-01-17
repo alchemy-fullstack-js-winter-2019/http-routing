@@ -94,6 +94,19 @@ describe('gets people', () => {
           });
       });
   }); 
+  it('deletes a person', () => {
+    return createPerson('marcy1')
+      .then(personWhoWasCreated => {
+        const id = personWhoWasCreated._id;
+        return request(app)
+          .delete(`/people/${id}`)
+          .then(res => {
+            return request(app) 
+              .get(`/people/${id}`)
+              .then(res => {
+                expect(res.status).toEqual(200);
+              });
+          });
+      });
+  });
 });
-
-
