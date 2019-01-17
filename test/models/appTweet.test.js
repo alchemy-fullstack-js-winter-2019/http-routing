@@ -24,17 +24,33 @@ describe('gets people', () => {
       done(err);
     });
   });
-  // it('gets a tweet', () => {
-  //   const tweetsToCreate = ['tweet1', 'tweet2', 'tweet3', 'tweet4'];
-  //   return  Promise.all(tweetsToCreate.map(createTweet))
-  //     .then(() => {
-  //       return request(app)
-  //         .get('/tweets');
-  //     })
-  //     .then(({ body }) => {
-  //       expect(body).toHaveLength(4);
-  //     });
-  // });
+  it('gets a tweet', () => {
+    const tweetsToCreate = ['tweet1', 'tweet2', 'tweet3', 'tweet4'];
+    return  Promise.all(tweetsToCreate.map(createTweet))
+      .then(() => {
+        return request(app)
+          .get('/tweets/');
+      })
+      .then(({ body }) => {
+        expect(body).toHaveLength(4);
+      });
+  });
+  it('gets a tweet by id', () => {
+    return createTweet('marcy1')
+      .then(TweetWasCreated => {
+        const id = TweetWasCreated._id;
+        return request(app)
+          .get(`/tweets/${id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'marcy1',
+          description: 'dogs are the best',
+          username: 'allTHEDOGs',
+          _id: expect.any(String)
+        });
+      });
+  });
   it('makes a tweet', () => {
     return request(app)
       .post('/tweets')
@@ -52,5 +68,30 @@ describe('gets people', () => {
         });
       });
   });
+  it('finds by a tweet by ID and updates', () => {
+    return createTweet('marcy1')
+      .then(TweetWasCreated => {
+        const id = TweetWasCreated._id;
+        const updatedObject = ({ name: 'marcy2',
+          description: 'dogs are the best',
+          username: 'allTHEDOGs',
+          _id: expect.any(String) });
+        return request(app) 
+          .put(`/tweets/${id}`)
+          .send(updatedObject)
+          .then(res => {
+            return request(app)
+              .get(`/tweets/${id}`)
+              .then(res => {
+                expect(res.body).toEqual({
+                  name: 'marcy2',
+                  description: 'dogs are the best',
+                  username: 'allTHEDOGs',
+                  _id: id
+                });
+              });
+          });
+      });
+  }); 
 });
 
