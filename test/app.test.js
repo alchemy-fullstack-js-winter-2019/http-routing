@@ -266,4 +266,27 @@ describe('app tests', () => {
         expect(res.body.name).toContain('tiger');
       });
   });
+
+  it('updates an animal with :id and returns the update', () => {
+    return createAnimal('tiger')
+      .then((createdAnimal) => {
+        console.log(createdAnimal);
+        const id = createdAnimal._id;
+        const updatedObject = {
+          name: 'bengal tiger',
+          type: 'mammal'
+        };
+        return request(app)
+          .put(`/animals/${id}`)
+          .send(updatedObject)
+          .then(() => {
+            return request(app)
+              .get(`/animals/${id}`)
+              .then(res => {
+                console.log(res.body);
+                expect(res.body.name).toContain('bengal tiger');
+              });
+          });
+      });
+  });
 });
