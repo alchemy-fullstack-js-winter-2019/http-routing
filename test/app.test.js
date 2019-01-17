@@ -1,4 +1,4 @@
-const  mkdirp = require('mkdirp');
+const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const request = require('supertest');
 const app = require('../lib/app');
@@ -15,30 +15,30 @@ describe('app tests', () => {
     });
   });
 
-  const createPerson = name => { 
+  const createPerson = name => {
     return request(app)
       .post('/people')
       .send({
         name,
-        age:100,
+        age: 100,
         favoriteColor: 'red'
       })
-      .then (res => res.body);
+      .then(res => res.body);
   };
 
   it('creates a person', () => {
     return request(app)
       .post('/people')
-      .send ({
-        name:'Vic Demise',
+      .send({
+        name: 'Vic Demise',
         age: 30,
-        favoriteColor:'red'
+        favoriteColor: 'red'
       })
       .then(res => {
         expect(res.body).toEqual({
-          name:'Vic Demise',
+          name: 'Vic Demise',
           age: 30,
-          favoriteColor:'red',
+          favoriteColor: 'red',
           _id: expect.any(String)
         });
       });
@@ -46,7 +46,7 @@ describe('app tests', () => {
   it('gets a list of people from our db', () => {
     const namesToCreate = ['Robin D Cradle', 'Saul Goodman', 'Jay Qarry', 'Michael Deadhands'];
     return Promise.all(namesToCreate.map(createPerson))
-      .then(()=> {
+      .then(() => {
         return request(app)
           .get('/people');
       })
@@ -55,11 +55,20 @@ describe('app tests', () => {
       });
   });
   it('finds a user by ID', () => {
-    const id = createPerson.id;
-    return request(app)
-      .get(`/people/${id}`)
-      .then(res => expect(res.body.name).toEqual(createPerson.id));
+    return createPerson('Vic')
+      .then(({ _id }) => {
+        return Promise.all([
+          Promise.resolve(_id),
+          request(app).get(`/people/${_id}`)
+        ]);
+      })
+      .then(([_id, { body }]) => {
+        expect(body).toEqual({
+          name: 'Vic Demise',
+          age: 30,
+          favoriteColor: 'red',
+          _id
+        });
+      });
   });
-
-
 });
