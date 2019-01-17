@@ -119,7 +119,19 @@ describe('tweets tests', () => {
   });
 
   it('make a tweet and send back as JSON', () => {
-    return; 
+    return request(app)
+      .post('/tweets')
+      .send({
+        handle: 'tylercorbett',
+        message: 'Ryan is secretly a robot'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'tylercorbett',
+          message: 'Ryan is secretly a robot',
+          _id: expect.any(String) 
+        });
+      });
   });
 });
 
