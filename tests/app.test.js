@@ -60,14 +60,34 @@ describe('app tests', () => {
 
   it('gets a person by id', () => {
     return createPerson('abel')
-      .then(({ body }) => {
-        return request(app)
-          .get(`/people/${body._id}`)
-          .then(res => {
-            expect(res.body._id).toEqual(body._id);
-          });
-      }); 
-        
+      .then(({ _id }) => {
+        return Promise.all([
+          Promise.resolve(_id),
+          request(app).get(`/people/${_id}`)
+        ]);
+      })
+      .then(([_id, { body }]) => {
+        expect(body.toEqual({
+          name: 'abel',
+          age: 80,
+          favoriteColor: 'blue',
+          _id
+        });
+      });
+    }); 
+  });
+
+  it('updates a person with id and returns the update', () => {
+    return createPerson('abel')
+      .then(({ _id }) => {
+        return Promise.all([
+          Promise.resolve(_id),
+          request(app).put(`/people/${_id}`).send({ name: 'abel' })
+        ]);
+      })
+      .then(([_id, { body }]) => {
+        expect(body).toEqual({ deleted: 1 });
+      });
   });
 });
 
