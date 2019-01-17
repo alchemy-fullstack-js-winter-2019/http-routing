@@ -7,7 +7,7 @@ const createPerson = (name) => {
   return request(app)
     .post('/people')
     .send({
-      name: name,
+      name,
       age: 80,
       favoriteColor: 'blue'
     })
@@ -67,27 +67,27 @@ describe('app tests', () => {
         ]);
       })
       .then(([_id, { body }]) => {
-        expect(body.toEqual({
+        expect(body).toEqual({
           name: 'abel',
           age: 80,
           favoriteColor: 'blue',
           _id
         });
       });
-    }); 
-  });
-
-  it('updates a person with id and returns the update', () => {
-    return createPerson('abel')
-      .then(({ _id }) => {
-        return Promise.all([
-          Promise.resolve(_id),
-          request(app).put(`/people/${_id}`).send({ name: 'abel' })
-        ]);
-      })
-      .then(([_id, { body }]) => {
-        expect(body).toEqual({ deleted: 1 });
-      });
-  });
+  }); 
 });
+
+it('updates a person with id and returns the update', () => {
+  return createPerson('abel')
+    .then(({ _id }) => {
+      return Promise.all([
+        Promise.resolve(_id),
+        request(app).put(`/people/${_id}`).send({ name: 'abel' })
+      ]);
+    })
+    .then(([_id, { body }]) => {
+      expect(body).toEqual({ deleted: 1 });
+    });
+});
+
 
