@@ -56,6 +56,19 @@ describe('app tests', () => {
         console.log(body);
         expect(body).toHaveLength(4);
       });
-    
   });
+
+  it('gets a person by id', () => {
+    return createPerson('kristin1')
+      .then((createdPerson) => {
+        const id = createdPerson._id;
+        return request(app)
+          .get(`/people/${id}`);
+      })
+      .then(res => {
+        expect(res.body.name).toContain('kristin1');
+      });
+  });
+    
 });
+
