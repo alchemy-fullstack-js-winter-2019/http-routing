@@ -4,102 +4,102 @@ const request = require('supertest');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf'); 
 
-const createPerson = (name) => {
+const createDog = (name) => {
   return request(app)
-    .post('/people')
+    .post('/dogs')
     .send({
       name: name,
-      age: 40,
+      breed: 'frenchbull dog',
       favoriteColor: 'Periwinkle' 
     })
     .then(res => res.body);
 };
-describe('gets people', () => {
+describe('gets dog', () => {
   beforeEach(done => {
-    rimraf('./data/people', err => {
+    rimraf('./data/dogs', err => {
       done(err);
     });
   });
   beforeEach((done) => {
-    mkdirp('./data/people', err => {
+    mkdirp('./data/dogs', err => {
       done(err);
     });
   });
-  it('makes a person', () => {
+  it('makes a dog', () => {
     return request(app)
-      .post('/people')
+      .post('/dogs')
       .send({
-        name: 'Jeffery',
-        age: '40',
-        favoriteColor: 'Periwinkle' 
+        name: 'Cheddar',
+        breed: 'frenchbull dog',
+        favoriteColor: 'Periwinkle'
       })
       .then(res => {
         expect(res.body).toEqual({
-          name: 'Jeffery',
-          age: '40',
+          name: 'Cheddar',
+          breed: 'frenchbull dog',
           favoriteColor: 'Periwinkle',
           _id: expect.any(String)
         });
       });
   });
-  it('gets a people', () => {
-    const namesToCreate = ['marcy1', 'marcy2', 'marcy3', 'marcy4'];
-    return  Promise.all(namesToCreate.map(createPerson))
+  it('gets all the dogs', () => {
+    const namesToDogs = ['pudding', 'gunther', 'pickles', 'beans'];
+    return  Promise.all(namesToDogs.map(createDog))
       .then(() => {
         return request(app)
-          .get('/people');
+          .get('/dogs');
       })
       .then(({ body }) => {
         expect(body).toHaveLength(4);
       });
   });
-  it('gets a person by id', () => {
-    return createPerson('marcy1')
-      .then(personWhoWasCreated => {
-        const id = personWhoWasCreated._id;
+  it('gets a dog by id', () => {
+    return createDog('pickles')
+      .then(DogWasCreated => {
+        const id = DogWasCreated._id;
         return request(app)
-          .get(`/people/${id}`);
+          .get(`/dogs/${id}`);
       })
       .then(res => {
         expect(res.body).toEqual({
-          name: 'marcy1',
-          age: 40,
+          name: 'pickles',
+          breed: 'frenchbull dog',
           favoriteColor: 'Periwinkle',
           _id: expect.any(String)
         });
       });
   });
   it('finds by Id and updates', () => {
-    return createPerson('marcy1')
-      .then(personWhoWasCreated => {
-        const id = personWhoWasCreated._id;
-        const updatedObject = ({ name: 'marcy2',
-          age: 40,
+    return createDog('pickles')
+      .then(DogWasCreated => {
+        const id = DogWasCreated._id;
+        const updatedObject = ({ name: 'Cheddar',
+          breed: 'frenchbull dog',
           favoriteColor: 'Periwinkle',
           _id: expect.any(String) });
         return request(app) 
-          .put(`/people/${id}`)
+          .put(`/dogs/${id}`)
           .send(updatedObject)
           .then(res => {
             return request(app)
-              .get(`/people/${id}`)
+              .get(`/dogs/${id}`)
               .then(res => {
                 expect(res.body).toEqual({
-                  name: 'marcy2',
-                  age: 40,
+                  name: 'Cheddar',
+                  breed: 'frenchbull dog',
                   favoriteColor: 'Periwinkle',
-                  _id: id
+                  _id: expect.any(String)
                 });
               });
           });
       });
   }); 
-  it('deletes a person', () => {
-    return createPerson('marcy1')
-      .then(personWhoWasCreated => {
-        const id = personWhoWasCreated._id;
+  it('deletes a dog', () => {
+    return createDog('pudding')
+      .then(DogWasCreated => {
+        const id = DogWasCreated._id;
         return request(app)
-          .delete(`/people/${id}`)
+          .delete(`/dogs/${id}`)
           .then(res => {
             expect(res.status).toEqual(200);
           });
