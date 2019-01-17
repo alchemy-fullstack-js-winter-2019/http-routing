@@ -16,17 +16,17 @@ const createPerson = (name) => {
 
 
 describe('app tests', () => {
-  // beforeEach(done => {
-  //   rimraf('./data/people', err => {
-  //     done(err);
-  //   });
-  // });
+  beforeEach(done => {
+    rimraf('./data/people', err => {
+      done(err);
+    });
+  });
 
-  // beforeEach(done => {
-  //   mkdirp('./data/people', err => {
-  //     done(err);
-  //   });
-  // });
+  beforeEach(done => {
+    mkdirp('./data/people', err => {
+      done(err);
+    });
+  });
 
   it('creates a person', () => {
     return request(app)
@@ -57,5 +57,17 @@ describe('app tests', () => {
         expect(body).toHaveLength(4);
       });
   });
+
+  // it('gets a person by id', () => {
+  //   const id = personWhoWasCreated._id;
+  //   return createPerson('abel')
+  //     .then(personWhoWasCreated => {
+  //       return request(app)
+  //         .get('/people');
+  //     })
+  //       .then({ body }) => {
+  //         expect(body._id).toEqual()
+  //       }
+  // });
 });
 
