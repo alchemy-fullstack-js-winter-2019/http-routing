@@ -25,7 +25,7 @@ describe('gets people', () => {
       done(err);
     });
   });
-  it('make a person', () => {
+  it('makes a person', () => {
     return request(app)
       .post('/people')
       .send({
