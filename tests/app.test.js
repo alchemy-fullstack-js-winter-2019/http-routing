@@ -58,16 +58,17 @@ describe('app tests', () => {
       });
   });
 
-  // it('gets a person by id', () => {
-  //   const id = personWhoWasCreated._id;
-  //   return createPerson('abel')
-  //     .then(personWhoWasCreated => {
-  //       return request(app)
-  //         .get('/people');
-  //     })
-  //       .then({ body }) => {
-  //         expect(body._id).toEqual()
-  //       }
-  // });
+  it('gets a person by id', () => {
+    const id = personWhoWasCreated._id;
+    return createPerson('abel')
+      .then(personWhoWasCreated => {
+        return request(app)
+          .get('/people');
+      })
+      .then({ body }) => {
+        expect(body).toEqual(id)
+      }; 
+        
+  });
 });
 
