@@ -20,7 +20,7 @@ describe('app tests', () => {
       .post('/people')
       .send({
         name,
-        age: 100,
+        age: 30,
         favoriteColor: 'red'
       })
       .then(res => res.body);
@@ -43,6 +43,7 @@ describe('app tests', () => {
         });
       });
   });
+
   it('gets a list of people from our db', () => {
     const namesToCreate = ['Robin D Cradle', 'Saul Goodman', 'Jay Qarry', 'Michael Deadhands'];
     return Promise.all(namesToCreate.map(createPerson))
@@ -54,8 +55,9 @@ describe('app tests', () => {
         expect(body).toHaveLength(4);
       });
   });
+
   it('finds a user by ID', () => {
-    return createPerson('Vic')
+    return createPerson('Vic Demise')
       .then(({ _id }) => {
         return Promise.all([
           Promise.resolve(_id),
