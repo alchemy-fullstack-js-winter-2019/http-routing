@@ -7,10 +7,10 @@ const createPerson = (name) => {
   return request(app)
     .post('./People') //execute a post
     .send({ //send this data
-      name: 'name',
+      name: name,
       age: 100,
       favoriteColor: 'red'
-    });
+    })
     .then(res => res.body); //to only get the json
 };
 
@@ -48,15 +48,28 @@ describe('app test', () => {
   });
 
   it('gets a list of people from our db', () => {
-    const namesToCreate = ['ryan', 'ryan1', 'ryan2'] //names of people want to create
+    const namesToCreate = ['ryan', 'ryan1', 'ryan2']; //names of people want to create
     return Promise.all(namesToCreate.map(createPerson)) //map through it to crate a person. want to fulfill promise before moving to the next step
-      .then(createPeople => {
+      .then(() => { //after all created we expect to get a list of all people created
         return request(app)
           .get('/people');
       })
-      .then(res => {
-        expect(res.body).toHaveLength(3);
+      .then(({ body }) => { //destructor body to not res and res.body
+        expect(body).toHaveLength(3);
       });
-    });
-    // return Array.from(Array(10)) //creates an array with 10 people
+  });
+  // return Array.from(Array(10)) //creates an array with 10 people
+  it('gets a person by id', () => {
+    return createPerson('Uncle Bob')
+      .then((createdPerson) => {
+        const id = createdPerson._id;
+        return request(app)
+          .get(`/people/${id}`);
+      })
+      .then(res => {
+        expect(res.body.name).toEqual('Uncle Bob');
+      });
+
+
+  });
 });
