@@ -9,7 +9,7 @@ const createPerson = name => {
     .send({
       name: name,
       age: 100,
-      favoriteColor: 'red',
+      favoriteColor: 'red'
     });
 };
 
@@ -32,7 +32,7 @@ describe('app tests', () => {
       .send({
         name: 'Uncle Bob',
         age: 100,
-        favoriteColor: 'red',
+        favoriteColor: 'red'
       })
       .then(res => {
         expect(res.body).toEqual({
@@ -40,8 +40,7 @@ describe('app tests', () => {
           age: 100,
           favoriteColor: 'red',
           _id: expect.any(String) 
-        })
-          .then(res => res.body);
+        });
       });
   });
   it('returns all people', () => {
@@ -51,8 +50,21 @@ describe('app tests', () => {
         return request(app)
           .get('/people');
       })
+      .then(({ body }) => {
+        expect(body).toHaveLength(4);
+      });
+  });
+  it('gets a person by id', () => {
+    return request(app)
+      .post('/people')
+      .send({
+        name: 'Uncle Bob',
+        age: 100,
+        favoriteColor: 'red'
+      })
       .then(res => {
-        expect(res.body).toHaveLength(4);
+        const id = res.body._id;
+        
       });
   });
 });
