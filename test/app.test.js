@@ -3,6 +3,17 @@ const app = require('../lib/app');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 
+const createPerson = name => {
+  return request(app)
+    .post('/people')
+    .send({
+      name: name,
+      age: 100,
+      favoriteColor: 'red',
+    });
+};
+
+
 describe('app tests', () => {
   beforeEach(done => {
     rimraf('./data/people', err => {
@@ -34,12 +45,6 @@ describe('app tests', () => {
   });
   it('returns all people', () => {
     return request(app)
-      .post('/people')
-      .send({
-        name: 'Uncle Bob',
-        age: 100,
-        favoriteColor: 'red',
-      })
       .get('/people')
       .then(res => {
         expect(res.body).toEqual({
