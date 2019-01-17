@@ -191,4 +191,16 @@ describe('app tests', () => {
           });
       });
   });
+
+  it('deletes a tweet with :id and returns the delete count', () => {
+    return createTweet('kristin1')
+      .then((createdTweet) => {
+        const id = createdTweet._id;
+        return request(app)
+          .delete(`/tweets/${id}`)
+          .then(res => {
+            expect(res.body).toEqual({ 'deleted': 1 });
+          });
+      });
+  });
 });
