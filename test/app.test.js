@@ -72,11 +72,16 @@ describe('app tests', () => {
           .send({
             name: body.name,
             age: body.age,
-            favoriteColor: 'blue',
+            favoriteColor: 'green',
             _id: body._id
           })
           .then(res => {
-            expect(res.body.favoriteColor).toEqual('blue');
+            expect(res.body).toEqual({
+              name: 'Tyler',
+              age: 100,
+              favoriteColor: 'green',
+              _id: res.body._id
+            });
           });
       });
   });
