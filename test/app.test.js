@@ -13,17 +13,34 @@ const createPerson = (name) => {
     });
 };
 
+// const createTweet = (handle) => {
+//   return request(app)
+//     .post('/tweets')
+//     .send({
+//       handle,
+//       tweet: 'tweet tweet'
+//     });
+// };
+
 describe('people', () => {
   beforeEach(done => {
     rimraf('./data/people', err => {
       done(err);
     });
+    // rimraf('./data/tweets', err => {
+    //   done(err);
+    // });
   });
+
   beforeEach(done => {
     mkdirp('./data/people', err => {
       done(err);
     });
+    // mkdirp('./data/tweets', err => {
+    //   done(err);
+    // });
   });
+
   it('creates a person', () => {
     return request(app)
       .post('/people')
@@ -41,6 +58,23 @@ describe('people', () => {
         });
       });
   });
+
+  it('creates a tweet!', () => {
+    return request(app)
+      .post('/tweets')
+      .send({
+        handle: 'bAnAnAsRcOoL',
+        tweet: 'i love bananas'
+      })
+      .then(({ body }) => {
+        expect(body).toEqual({
+          handle: 'bAnAnAsRcOoL',
+          tweet: 'i love bananas',
+          _id: expect.any(String)
+        });
+      });
+  });
+
   it('can get a list of people from our db', () => {
     const namesToCreate = ['paige', 'bob', 'jim', 'frank', 'billy'];
     return Promise.all(namesToCreate.map(createPerson))
@@ -52,6 +86,7 @@ describe('people', () => {
         expect(body).toHaveLength(5);
       });
   });
+
   it('can get a person by id', () =>{
     return createPerson('boohbah')
       .then(({ body }) => {
