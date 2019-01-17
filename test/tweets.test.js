@@ -9,7 +9,7 @@ const makeTweet = (text) => {
     .post('/tweets')
     .send({
       handle: 'katerj',
-      tweet: 'Yay, tomorrow is Friday'
+      tweet: text
     })
     .then(res => res.body);
 };
@@ -59,4 +59,44 @@ describe('tweets test', () => {
       });
   });
 
+  it('gets a tweet by id', () => {
+    return makeTweet('Weeee')
+      .then(newTweet => {
+        const id = newTweet._id;
+        return request(app)
+          .get(`/tweets/${id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'katerj',
+          tweet: 'Weeee',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('gets a tweet by id and updates', () => {
+    return makeTweet('update this tweet')
+      .then(tweetMade => {
+        const id = tweetMade._id;
+        return request(app)
+          .put(`/tweets/${id}`)
+          .send({
+            handle: 'katerj',
+            tweet: 'update this tweet',
+            _id: id
+          })
+          .then(() => {
+            return request(app)
+              .get(`/tweets/${id}`)
+              .then(res => {
+                expect(res.body).toEqual({
+                  handle: 'katerj',
+                  tweet: 'update this tweet',
+                  _id: id
+                });
+              });
+          });
+      });
+  });
 });
