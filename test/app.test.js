@@ -254,4 +254,16 @@ describe('app tests', () => {
         expect(body).toHaveLength(4);
       });
   });
+
+  it('gets an animal by id', () => {
+    return createAnimal('tiger')
+      .then((createdAnimal) => {
+        const id = createdAnimal._id;
+        return request(app)
+          .get(`/animals/${id}`);
+      })
+      .then(res => {
+        expect(res.body.name).toContain('tiger');
+      });
+  });
 });
