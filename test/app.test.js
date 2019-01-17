@@ -289,4 +289,17 @@ describe('app tests', () => {
           });
       });
   });
+
+  it('deletes an animal with :id and returns the delete count', () => {
+    return createAnimal('koala')
+      .then((createdAnimal) => {
+        console.log(createdAnimal);
+        const id = createdAnimal._id;
+        return request(app)
+          .delete(`/animals/${id}`)
+          .then(res => {
+            expect(res.body).toEqual({ 'deleted': 1 });
+          });
+      });
+  });
 });
