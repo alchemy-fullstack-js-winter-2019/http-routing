@@ -81,15 +81,19 @@ describe('gets people', () => {
           .put(`/people/${id}`)
           .send(updatedObject)
           .then(res => {
-            expect(res.body).toEqual({
-              name: 'marcy2',
-              age: 40,
-              favoriteColor: 'Periwinkle',
-              _id: id
-            });
+            return request(app)
+              .get(`/people/${id}`)
+              .then(res => {
+                expect(res.body).toEqual({
+                  name: 'marcy2',
+                  age: 40,
+                  favoriteColor: 'Periwinkle',
+                  _id: id
+                });
+              });
           });
-      }); 
-  });
+      });
+  }); 
 });
 
 
