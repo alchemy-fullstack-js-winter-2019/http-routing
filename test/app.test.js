@@ -91,8 +91,7 @@ describe('app tests', () => {
         return request(app)
           .delete(`/people/${body._id}`)
           .then(res => {
-            console.log(res.body);
-            expect(res.body).toEqual(1);
+            expect(res.body).toEqual({ deleted: 1 });
           });
       });
   });
