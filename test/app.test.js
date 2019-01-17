@@ -67,7 +67,6 @@ describe('it test various rest methods', () => {
             })
             .then(({ body }) => {
                 expect(body.name).toContain('lance1');
-    
             });
     });
 
@@ -90,10 +89,10 @@ describe('it test various rest methods', () => {
             .then(createdPerson => {
                 const id = createdPerson._id;
                 return request(app)
-                    .del(`/people/${id}`);
+                    .delete(`/people/${id}`);
             })
             .then(({ body }) => {
-                expect(body.name).toContain('deleted');
+                expect(body).toEqual({ 'deleted' : 1 });
             });
     });
 });
