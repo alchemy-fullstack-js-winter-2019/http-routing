@@ -85,6 +85,17 @@ describe('app tests', () => {
           });
       });
   });
+  it('deletes a person by id and returns delete count', () => {
+    return createPerson('Connor')
+      .then(({ body }) => {
+        return request(app)
+          .delete(`/people/${body._id}`)
+          .then(res => {
+            console.log(res.body);
+            expect(res.body).toEqual(1);
+          });
+      });
+  });
 });
 
 
