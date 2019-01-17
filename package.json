@@ -24,11 +24,12 @@
   "devDependencies": {
     "eslint": "^5.12.0",
     "jest": "^23.6.0",
+    "mkdirp": "^0.5.1",
     "nodemon": "^1.18.9",
-    "supertest": "^3.3.0"
+    "rimraf": "^2.6.3",
+    "supertest": "^3.4.1"
   },
   "dependencies": {
-    "shortid": "^2.2.14",
-    "superagent": "^4.1.0"
+    "shortid": "^2.2.14"
   }
 }
