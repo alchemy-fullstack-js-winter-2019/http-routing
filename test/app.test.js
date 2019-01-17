@@ -69,6 +69,29 @@ describe('app tests', () => {
         expect(res.body.name).toContain('kristin1');
       });
   });
+
+  it('updates a person with :id and returns the update', () => {
+    return createPerson('kristin1')
+      .then((createdPerson) => {
+        const id = createdPerson._id;
+        const updatedObject = {
+          name: 'roxius',
+          age: 99,
+          favoriteColor: 'black'
+        };
+        return request(app)
+          // .get(`/people/${id}`)
+          .put(`/people/${id}`)
+          .send(updatedObject)
+          .then(() => {
+            return request(app)
+              .get(`/people/${id}`)
+              .then(res => {
+                expect(res.body.name).toContain('roxius');
     
+              });
+          });
+      });
+  }); 
 });
 
