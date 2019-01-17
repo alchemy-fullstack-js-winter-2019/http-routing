@@ -14,6 +14,16 @@ const createPerson = (name) => {
     .then(res => res.body);
 };
 
+const createTweet = (handle) => {
+  return request(app)
+    .post('/tweets')
+    .send({ 
+      handle: handle,
+      tweet: 'test tweet'
+    })
+    .then(res => res.body);
+};
+
 describe('app tests', () => {
   beforeEach((done) => {
     rimraf('./data/people', err => {
@@ -22,7 +32,19 @@ describe('app tests', () => {
   });
 
   beforeEach((done) => {
+    rimraf('./data/tweets', err => {
+      done(err);
+    });
+  });
+
+  beforeEach((done) => {
     mkdirp('./data/people', err => {
+      done(err);
+    });
+  });
+
+  beforeEach((done) => {
+    mkdirp('./data/tweets', err => {
       done(err);
     });
   });
@@ -81,7 +103,6 @@ describe('app tests', () => {
           favoriteColor: 'black'
         };
         return request(app)
-          // .get(`/people/${id}`)
           .put(`/people/${id}`)
           .send(updatedObject)
           .then(() => {
@@ -106,5 +127,33 @@ describe('app tests', () => {
           });
       });
   });
-});
 
+  it('creates a tweet', () => {
+    return request(app)
+      .post('/tweets')
+      .send({ 
+        handle: 'sk@8trgrl',
+        tweet: 'longboarding life yo'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          handle: 'sk@8trgrl',
+          tweet: 'longboarding life yo',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('can list all the tweets in the database', () => {
+    const handles = ['kristin1', 'kristin2', 'kristin3', 'kristin4'];
+    return Promise.all(handles.map(createTweet))
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(({ body }) => {
+        console.log(body);
+        expect(body).toHaveLength(4);
+      });
+  });
+});
