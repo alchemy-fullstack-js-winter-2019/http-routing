@@ -90,4 +90,17 @@ describe('app tests', () => {
       });
   });
 
+  it('can delete a person with :id and returns the delete count', () => {
+    createPerson('jan'); 
+    return createPerson('carl')
+      .then(personWhoWasCreated => {
+        const _id = personWhoWasCreated._id;
+        return request(app)
+          .delete(`/people/${_id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+          });
+      });
+  });
+
 });
