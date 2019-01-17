@@ -17,7 +17,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watch --verbose",
     "lint": "eslint .",
     "pretest": "npm run lint"
   },

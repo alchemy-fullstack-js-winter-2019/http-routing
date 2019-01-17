@@ -53,17 +53,47 @@ describe('it test various rest methods', () => {
                 return request(app)
                     .get('/people');
             })
-            .then(res => {
-                expect(res.body).toHaveLength(3);
+            .then(({ body }) => {
+                expect(body).toHaveLength(3);
             });
     });
 
     it('gets a person by id', () => {
-        return request(app)
-            .get('/people')
-            .then(res => {
-                expect(res.body).toContain('lance1');
+        return createPerson('lance1')
+            .then(createdPerson => {
+                const id = createdPerson._id;
+                return request(app)
+                    .get(`/people/${id}`);
+            })
+            .then(({ body }) => {
+                expect(body.name).toContain('lance1');
+    
+            });
+    });
 
+
+    it('can find by id and update a person', () => {
+        return createPerson('lance47')
+            .then(createdPerson => {
+                const id  = createdPerson._id;
+                createdPerson.name = 'lanceUPDATED';
+                return request(app)
+                    .put(`/people/${id}`)
+                    .send(createdPerson);
+            })
+            .then(({ body }) => {
+                expect(body.name).toContain('lanceUPDATED');
+            });
+    });
+    it('can delete a file/person', () => {
+        return createPerson('lance50')
+            .then(createdPerson => {
+                const id = createdPerson._id;
+                return request(app)
+                    .del(`/people/${id}`);
+            })
+            .then(({ body }) => {
+                expect(body.name).toContain('deleted');
             });
     });
 });
