@@ -15,7 +15,7 @@ const makePerson = (name) => {
     .then(res => res.body);
 };
 
-describe('app tests', () => {
+describe('people tests', () => {
   beforeEach(done => {
     // Before each test remove directory so we don't have old test data
     rimraf('./data/people', err => {
