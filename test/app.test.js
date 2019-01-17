@@ -52,8 +52,9 @@ describe('app tests', () => {
         return request(app)
           .get('/people');
       })
-      .then(res => {
-        expect(res.body).toHaveLength(4);
+      .then(({ body }) => {
+        console.log(body);
+        expect(body).toHaveLength(4);
       });
     
   });
