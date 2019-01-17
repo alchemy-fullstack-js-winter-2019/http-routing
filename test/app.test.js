@@ -57,10 +57,22 @@ describe('app tests', () => {
       });
   });
 
-  // it('gets a person by id', () => {
-  //   return createPerson('ryan')
-  //     .then(personWhoWasCreated => {
-  //       const id = personWhoWasCreated._id;
-  //     });
-  // });
+  it('gets a person by id', () => {
+    return createPerson('cari')
+      .then(personWhoWasCreated => {
+        const id = personWhoWasCreated._id;
+        return request(app)
+          .get(`/people/${id}`)
+          .then(res => {
+            // console.log(res.body._id);
+            expect(res.body).toEqual({
+              name: 'cari',
+              age: 100,
+              favoriteColor: 'red',
+              _id: id
+            });
+          });
+      });
+
+  });
 });
