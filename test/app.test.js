@@ -151,6 +151,16 @@ describe('tweets tests', () => {
         expect(body).toHaveLength(2);
       });
   });
+  it('returns a tweet by id', () => {
+    return createTweet('tylerIsCool', 'I hear that Tyler is cool')
+      .then(({ body }) => {
+        return request(app)
+          .get(`/tweets/${body._id}`)
+          .then(res => {
+            expect(res.body._id).toEqual(body._id);
+          });
+      });
+  });
 });
 
 
