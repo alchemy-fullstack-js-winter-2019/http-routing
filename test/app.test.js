@@ -56,4 +56,20 @@ describe('app tests', () => {
         expect(body).toHaveLength(4);
       });
   });
+
+  it.only('gets a person by id', () => {
+    return createPerson('ivan')
+      .then(createdPerson => {
+        const id = createdPerson._id;
+        return request(app)
+          .get(`/people/${id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'ivan',
+          age: 30,
+          favoriteSport: 'basketball'
+        });
+      });
+  });
 });
