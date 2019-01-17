@@ -93,6 +93,18 @@ describe('app tests', () => {
               });
           });
       });
-  }); 
+  });
+  
+  it('deletes a person with :id and returns the delete count', () => {
+    return createPerson('kristin1')
+      .then((createdPerson) => {
+        const id = createdPerson._id;
+        return request(app)
+          .delete(`/people/${id}`)
+          .then(res => {
+            expect(res.body).toEqual({ 'deleted': 1 });
+          });
+      });
+  });
 });
 
