@@ -67,4 +67,24 @@ describe('people', () => {
         });
       });
   });
+
+  it('can find by id and update', () => {
+    return createPerson('boohbah')
+      .then(({ body }) => {
+        return request(app)
+          .put(`/people/${body._id}`);
+      })
+      .then(({ body }) => {
+        return request(app)
+          .get(`/people/${body._id}`);
+      })
+      .then(({ body }) => {
+        expect(body).toEqual({
+          name: 'banana',
+          age: '20',
+          favoriteColor: 'blue',
+          _id: expect.any(String)
+        });
+      });
+  });
 });
