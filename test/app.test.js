@@ -13,6 +13,15 @@ const createPerson = name => {
     });
 };
 
+// const createTweet = (handle, message) => {
+//   return request(app)
+//     .post('/tweets')
+//     .send({
+//       handle: handle,
+//       message: message
+//     });
+// };
+
 
 describe('app tests', () => {
   beforeEach(done => {
@@ -98,7 +107,20 @@ describe('app tests', () => {
 });
 
 describe('tweets tests', () => {
-    it('')
+  beforeEach(done => {
+    rimraf('./data/tweets', err => {
+      done(err);
+    });
+  });
+  beforeEach(done => {
+    mkdirp('./data/tweets', err => {
+      done(err);
+    });
+  });
+
+  it('make a tweet and send back as JSON', () => {
+    return; 
+  });
 });
 
 
