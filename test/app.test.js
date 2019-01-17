@@ -48,8 +48,23 @@ describe('people', () => {
         return request(app)
           .get('/people');
       })
-      .then(res => {
-        expect(res.body).toHaveLength(5);
+      .then(({ body }) => {
+        expect(body).toHaveLength(5);
+      });
+  });
+  it('can get a person by id', () =>{
+    return createPerson('boohbah')
+      .then(({ body }) => {
+        return request(app)
+          .get(`/people/${body._id}`);
+      })
+      .then(({ body }) => {
+        expect(body).toEqual({
+          name: 'boohbah',
+          age: '100',
+          favoriteColor: 'red',
+          _id: expect.any(String)
+        });
       });
   });
 });
