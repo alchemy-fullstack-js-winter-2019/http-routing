@@ -40,19 +40,19 @@ describe('app tests', () => {
           age: 100,
           favoriteColor: 'red',
           _id: expect.any(String) 
-        });
+        })
+          .then(res => res.body);
       });
   });
   it('returns all people', () => {
-    return request(app)
-      .get('/people')
+    const namesToCreate = ['ryan', 'ryan1', 'ryan2', 'ryan3'];
+    return Promise.all(namesToCreate.map(createPerson))
+      .then(() => {
+        return request(app)
+          .get('/people');
+      })
       .then(res => {
-        expect(res.body).toEqual({
-          name: 'Uncle Bob',
-          age: 100,
-          favoriteColor: 'red',
-          _id: expect.any(String) 
-        });
+        expect(res.body).toHaveLength(4);
       });
   });
 });
