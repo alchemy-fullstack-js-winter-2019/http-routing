@@ -92,6 +92,18 @@ describe('gets people', () => {
               });
           });
       });
-  }); 
+  });
+  it('deletes a tweet', () => {
+    return createTweet('marcy1')
+      .then(TweetWasCreated => {
+        const id = TweetWasCreated._id;
+        return request(app)
+          .delete(`/tweets/${id}`)
+          .then(res => {
+            expect(res.status).toEqual(200);
+          });
+      });
+  });
 });
+
 
