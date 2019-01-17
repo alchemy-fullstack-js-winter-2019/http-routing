@@ -86,22 +86,22 @@ describe('app tests', () => {
         return request(app)
           .put(`/people/${id}`)
           .send({
-            name: 'Kate Dameron',
+            name: 'Kate D',
             job: 'developer',
-            pets: 'Kaiya & Kingsly',
+            pets: 'Kaiya and Kingsly',
             _id: id
           })
           .then(() => {
             return request(app)
-              .get(`/people/${id}`);
-          })
-          .then(res => {
-            expect(res.body).toEqual({
-              name: 'Kate Dameron',
-              job: 'developer',
-              pets: 'Kaiya & Kingsly',
-              _id: id
-            });
+              .get(`/people/${id}`)
+              .then(res => {
+                expect(res.body).toEqual({
+                  name: 'Kate D',
+                  job: 'developer',
+                  pets: 'Kaiya and Kingsly',
+                  _id: id
+                });
+              });
           });
       });
   });
