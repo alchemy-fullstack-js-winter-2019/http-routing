@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose",
     "start": "nodemon server.js",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watch --verbose",
     "lint": "eslint .",
     "pretest": "npm run lint"
   },
