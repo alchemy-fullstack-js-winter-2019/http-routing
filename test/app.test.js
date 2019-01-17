@@ -66,6 +66,7 @@ describe('app tests', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
+          _id: expect.any(String),
           name: 'ivan',
           age: 30,
           favoriteSport: 'basketball'
