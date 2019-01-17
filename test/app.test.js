@@ -3,12 +3,12 @@ const rimraf = require('rimraf');
 const request = require('supertest');
 const app = require('../lib/app');
 
-const createPerson = name => {
+const createPerson = (name, age = 100) => {
   return request(app)
     .post('/people')
     .send({
       name,
-      age: 100,
+      age: age,
       favoriteColor: 'red'
     })
     .then(res => res.body);
@@ -22,9 +22,7 @@ describe('app tests', () => {
   });
 
   beforeEach(done => {
-    mkdirp('./data/people', err => {
-      done(err);
-    });
+    mkdirp('./data/people', done);
   });
 
   it('creates a person', () => {
@@ -60,19 +58,36 @@ describe('app tests', () => {
   it('gets a person by id', () => {
     return createPerson('cari')
       .then(personWhoWasCreated => {
-        const id = personWhoWasCreated._id;
+        const _id = personWhoWasCreated._id;
         return request(app)
-          .get(`/people/${id}`)
+          .get(`/people/${_id}`)
           .then(res => {
-            // console.log(res.body._id);
             expect(res.body).toEqual({
               name: 'cari',
               age: 100,
               favoriteColor: 'red',
-              _id: id
+              _id
             });
           });
       });
-
   });
+
+  it('updates a person with :id and returns the update', () => {
+    let newPerson = {
+      name: 'steve',
+      age: 40,
+      favoriteColor: 'blue'
+    };
+    return createPerson('cari')
+      .then(createdPerson => {
+        const _id = createdPerson._id;
+        return request(app)
+          .put(`/people/${_id}`)
+          .send(newPerson);
+      })
+      .then(res => {
+        expect(res.body.name).toEqual('steve');
+      });
+  });
+
 });
