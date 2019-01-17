@@ -168,4 +168,27 @@ describe('app tests', () => {
         expect(res.body.handle).toContain('kristin1');
       });
   });
+
+  it('updates a tweet with :id and returns the update', () => {
+    return createTweet('kristin1')
+      .then((createdTweet) => {
+        console.log(createdTweet);
+        const id = createdTweet._id;
+        const updatedObject = {
+          handle: 'roxius',
+          tweet: 'some tweet'
+        };
+        return request(app)
+          .put(`/tweets/${id}`)
+          .send(updatedObject)
+          .then(() => {
+            return request(app)
+              .get(`/tweets/${id}`)
+              .then(res => {
+                console.log(res.body);
+                expect(res.body.handle).toContain('roxius');
+              });
+          });
+      });
+  });
 });
