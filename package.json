@@ -1,3 +1,4 @@
+
 {
   "name": "http-routing",
   "version": "1.0.0",
@@ -7,7 +8,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint .",
-    "pretest": "npm run lint"
+    "pretest": "npm run lint",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
