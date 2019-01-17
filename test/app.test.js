@@ -11,22 +11,17 @@ const createPerson = name => {
         age: 100,
         favoriteColor: 'red'
       })
-
+    .then(res => res.body);
 }
 
 describe('app tests', () => {
   beforeEach(done => {
-    rimraf('./data/people', err => {
-      done(err);
-    });
+    rimraf('./data/people', done);
   });
 
   beforeEach(done => {
-    mkdirp('./data/people', err => {
-      done(err);
-    });
+    mkdirp('./data/people', done);
   });
-
 
   it('creates a person', () => {
     return request(app)
@@ -45,6 +40,7 @@ describe('app tests', () => {
         })
       })
   })
+
   it('gets list of people created in db', () => {
     const namesToCreate =['tt1','tt2', 'tt3', 'tt4'];
     return Promise.all(namesToCreate.map(createPerson))
@@ -55,20 +51,30 @@ describe('app tests', () => {
       .then(({ body }) => {
         expect(body).toHaveLength(4);
       });
-  });
+  })
+
   it('gets a person by id', () => {
     return createPerson('teonna')
       .then(createdPerson => {
+        const id = createdPerson._id
+        console.log(id);
         return request(app)
-          .get(`/people/${createdPerson._id}`)
+          .get(`/people/${id}`)
       })
       .then(({ body }) => {
-        expect(body).toEqual({
-          name: 'teonna',
-          age: 100,
-          favoriteColor: 'red',
-          _id: expect.any(String)
-        });
+        expect(body.name).toEqual('teonna');
       })
   })
+  // it('get a person by id and updates', () => {
+  //   return createPerson('tbird')
+  //     .then(createdPerson => {
+  //       const id =  createdPerson._id
+  //       return request(app)
+  //         .get(`/people/${id}`)
+  //     })
+  //     .then(updatedPerson => {
+      
+  //       .put()
+  //     })
+  // })
 });
