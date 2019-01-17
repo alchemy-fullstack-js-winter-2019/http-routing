@@ -51,7 +51,6 @@ describe('task tests', () => {
           .get('/tasks');
       })
       .then(({ body }) => {
-        console.log(body);
         expect(body).toHaveLength(4);
       });
   });
@@ -71,7 +70,6 @@ describe('task tests', () => {
   it('updates a task with :id and returns the update', () => {
     return createTask('wash car')
       .then((createdTask) => {
-        console.log(createdTask);
         const id = createdTask._id;
         const updatedObject = {
           title: 'do dishes',
@@ -84,7 +82,6 @@ describe('task tests', () => {
             return request(app)
               .get(`/tasks/${id}`)
               .then(res => {
-                console.log(res.body);
                 expect(res.body.title).toContain('do dishes');
               });
           });
@@ -94,7 +91,6 @@ describe('task tests', () => {
   it('deletes a task with :id and returns the delete count', () => {
     return createTask('go run')
       .then((createdTask) => {
-        console.log(createdTask);
         const id = createdTask._id;
         return request(app)
           .delete(`/tasks/${id}`)

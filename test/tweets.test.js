@@ -50,7 +50,6 @@ describe('tweets tests', () => {
           .get('/tweets');
       })
       .then(({ body }) => {
-        console.log(body);
         expect(body).toHaveLength(4);
       });
   });
@@ -70,7 +69,6 @@ describe('tweets tests', () => {
   it('updates a tweet with :id and returns the update', () => {
     return createTweet('kristin1')
       .then((createdTweet) => {
-        console.log(createdTweet);
         const id = createdTweet._id;
         const updatedObject = {
           handle: 'roxius',
@@ -83,7 +81,6 @@ describe('tweets tests', () => {
             return request(app)
               .get(`/tweets/${id}`)
               .then(res => {
-                console.log(res.body);
                 expect(res.body.handle).toContain('roxius');
               });
           });

@@ -51,7 +51,6 @@ describe('animal tests', () => {
           .get('/animals');
       })
       .then(({ body }) => {
-        console.log(body);
         expect(body).toHaveLength(4);
       });
   });
@@ -71,7 +70,6 @@ describe('animal tests', () => {
   it('updates an animal with :id and returns the update', () => {
     return createAnimal('tiger')
       .then((createdAnimal) => {
-        console.log(createdAnimal);
         const id = createdAnimal._id;
         const updatedObject = {
           name: 'bengal tiger',
@@ -84,7 +82,6 @@ describe('animal tests', () => {
             return request(app)
               .get(`/animals/${id}`)
               .then(res => {
-                console.log(res.body);
                 expect(res.body.name).toContain('bengal tiger');
               });
           });
@@ -94,7 +91,6 @@ describe('animal tests', () => {
   it('deletes an animal with :id and returns the delete count', () => {
     return createAnimal('koala')
       .then((createdAnimal) => {
-        console.log(createdAnimal);
         const id = createdAnimal._id;
         return request(app)
           .delete(`/animals/${id}`)

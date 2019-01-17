@@ -53,7 +53,6 @@ describe('people tests', () => {
           .get('/people');
       })
       .then(({ body }) => {
-        console.log(body);
         expect(body).toHaveLength(4);
       });
   });
@@ -73,7 +72,6 @@ describe('people tests', () => {
   it('updates a person with :id and returns the update', () => {
     return createPerson('kristin1')
       .then((createdPerson) => {
-        console.log(createdPerson);
         const id = createdPerson._id;
         const updatedObject = {
           name: 'roxius',
@@ -87,7 +85,6 @@ describe('people tests', () => {
             return request(app)
               .get(`/people/${id}`)
               .then(res => {
-                console.log(res.body);
                 expect(res.body.name).toContain('roxius');
               });
           });
