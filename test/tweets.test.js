@@ -6,7 +6,7 @@ const rimraf = require('rimraf');
 
 const makeTweet = (text) => {
   return request(app)
-    .post('/people')
+    .post('/tweets')
     .send({
       handle: 'katerj',
       tweet: 'Yay, tomorrow is Friday'
@@ -45,5 +45,18 @@ describe('tweets test', () => {
       });
   });
 
+  it('get a list of tweets from db', () => {
+    // Promise.all will make sure that all people are return before we move on with the test instead of having to next create>create>create
+    return Promise.all(['tweet 1', 'tweet 2', 'tweet 3'].map(tweet => {
+      return makeTweet(tweet);
+    }))
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(({ body }) => {
+        expect(body).toHaveLength(3);
+      });
+  });
 
 });
