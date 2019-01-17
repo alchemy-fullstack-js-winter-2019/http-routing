@@ -57,12 +57,10 @@ describe('app tests', () => {
   it('gets a person by id', () => {
     return createPerson('Tyler')
       .then(({ body }) => {
-        console.log('body\n\n\n\n\n', body);
         return request(app)
           .get(`/people/${body._id}`)
           .then(res => {
-            console.log('id\n\n\n\n\n', body._id);
-            console.log('res', res);
+            expect(res.body._id).toEqual(body._id);
           });
       });
       
