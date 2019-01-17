@@ -24,6 +24,16 @@ const createTweet = (handle) => {
     .then(res => res.body);
 };
 
+const createAnimal = (name) => {
+  return request(app)
+    .post('/animals')
+    .send({ 
+      name: name,
+      type: 'mammal'
+    })
+    .then(res => res.body);
+};
+
 describe('app tests', () => {
   beforeEach((done) => {
     rimraf('./data/people', err => {
@@ -38,6 +48,12 @@ describe('app tests', () => {
   });
 
   beforeEach((done) => {
+    rimraf('./data/animals', err => {
+      done(err);
+    });
+  });
+
+  beforeEach((done) => {
     mkdirp('./data/people', err => {
       done(err);
     });
@@ -45,6 +61,12 @@ describe('app tests', () => {
 
   beforeEach((done) => {
     mkdirp('./data/tweets', err => {
+      done(err);
+    });
+  });
+
+  beforeEach((done) => {
+    mkdirp('./data/animals', err => {
       done(err);
     });
   });
@@ -201,6 +223,35 @@ describe('app tests', () => {
           .then(res => {
             expect(res.body).toEqual({ 'deleted': 1 });
           });
+      });
+  });
+
+  it('creates an animal', () => {
+    return request(app)
+      .post('/animals')
+      .send({ 
+        name: 'tiger',
+        type: 'mammal'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'tiger',
+          type: 'mammal',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+  it('can list all the animals in the database', () => {
+    const names = ['dolphin', 'panda', 'tiger', 'wolf'];
+    return Promise.all(names.map(createAnimal))
+      .then(() => {
+        return request(app)
+          .get('/animals');
+      })
+      .then(({ body }) => {
+        console.log(body);
+        expect(body).toHaveLength(4);
       });
   });
 });
