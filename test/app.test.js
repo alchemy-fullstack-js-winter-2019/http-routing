@@ -13,14 +13,14 @@ const createPerson = name => {
     });
 };
 
-// const createTweet = (handle, message) => {
-//   return request(app)
-//     .post('/tweets')
-//     .send({
-//       handle: handle,
-//       message: message
-//     });
-// };
+const createTweet = (handle, message) => {
+  return request(app)
+    .post('/tweets')
+    .send({
+      handle: handle,
+      message: message
+    });
+};
 
 
 describe('app tests', () => {
@@ -131,6 +131,24 @@ describe('tweets tests', () => {
           message: 'Ryan is secretly a robot',
           _id: expect.any(String) 
         });
+      });
+  });
+  it('returns all tweets saved', () => {
+    const tweetsToMake = [{
+      handle: 'tylercorbett',
+      message: 'Ryan is secretly a robot'
+    }, 
+    {
+      handle: 'tylercorbett',
+      message: 'Top 3 robots of all time: 3. The Iron Giant 2. Wall E 1. Ryan'
+    }];
+    return Promise.all(tweetsToMake.map(createTweet))
+      .then(() => {
+        return request(app)
+          .get('/tweets');
+      })
+      .then(({ body }) => {
+        expect(body).toHaveLength(2);
       });
   });
 });
