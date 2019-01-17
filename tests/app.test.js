@@ -59,15 +59,14 @@ describe('app tests', () => {
   });
 
   it('gets a person by id', () => {
-    const id = personWhoWasCreated._id;
     return createPerson('abel')
-      .then(personWhoWasCreated => {
+      .then(({ body }) => {
         return request(app)
-          .get('/people');
-      })
-      .then({ body }) => {
-        expect(body).toEqual(id)
-      }; 
+          .get(`/people/${body._id}`)
+          .then(res => {
+            expect(res.body._id).toEqual(body._id);
+          });
+      }); 
         
   });
 });
