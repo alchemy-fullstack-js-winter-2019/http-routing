@@ -99,4 +99,17 @@ describe('tweets test', () => {
           });
       });
   });
+
+  it('gets a tweet by id and deletes that tweet', () => {
+    return makeTweet('delete this tweet')
+      .then(tweetToDelete => {
+        const id = tweetToDelete._id;
+        return request(app)
+          .delete(`/tweets/${id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+          });
+      });
+  });
+
 });
