@@ -1,4 +1,4 @@
-const app = require('../../lib/app');
+const app = require('../../lib/appTweet');
 const request = require('supertest');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf'); 
@@ -24,6 +24,17 @@ describe('gets people', () => {
       done(err);
     });
   });
+  // it('gets a tweet', () => {
+  //   const tweetsToCreate = ['tweet1', 'tweet2', 'tweet3', 'tweet4'];
+  //   return  Promise.all(tweetsToCreate.map(createTweet))
+  //     .then(() => {
+  //       return request(app)
+  //         .get('/tweets');
+  //     })
+  //     .then(({ body }) => {
+  //       expect(body).toHaveLength(4);
+  //     });
+  // });
   it('makes a tweet', () => {
     return request(app)
       .post('/tweets')
