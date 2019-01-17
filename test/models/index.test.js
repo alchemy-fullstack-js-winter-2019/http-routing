@@ -105,7 +105,7 @@ describe('Store', () => {
       store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' }, (err, updatedWithoutTypo) => {
         // -> -> expect updatedObject returned in callback
         expect(err).toBeFalsy();
-        expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id })
+        expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id });
         // -> -> store.findById(createdObject._id)
         store.findById(typoCreated._id, (err, foundObj) => {
           // -> -> -> expect updated object

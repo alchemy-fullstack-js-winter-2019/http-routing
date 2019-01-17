@@ -5,7 +5,7 @@ const app = require('../lib/app');
 
 const createPerson = (name) => {
   return request(app)
-    .post('./People') //execute a post
+    .post('/people') //execute a post
     .send({ //send this data
       name: name,
       age: 100,
@@ -18,20 +18,22 @@ const createPerson = (name) => {
 describe('app test', () => {
   beforeEach(done => {
     rimraf('./data/people', err => { //remove the people directory
-      done(err);
+      done(err); 
+
     });
   });
 
   beforeEach(done => {
-    mkdirp('./data/people', err => {
-      done(err);
+    mkdirp('./data/people', err => { //makes the directory with data and people
+      done(err); 
+      //mkdirp('./data/people, done)done is function that takes error
     });
   });
 
 
   it('creates a person', () => {
-    return request(app)
-      .post('./People') //execute a post
+    return request(app) //this lets gets know it's a promise
+      .post('/people') //execute a post
       .send({ //send this data
         name: 'Uncle bob',
         age: 100,
@@ -60,16 +62,28 @@ describe('app test', () => {
   });
   // return Array.from(Array(10)) //creates an array with 10 people
   it('gets a person by id', () => {
+    console.log('HERE');
     return createPerson('Uncle Bob')
-      .then((createdPerson) => {
+      .then((createdPerson) => { //(_id)
+        console.log('person', createdPerson);
         const id = createdPerson._id;
         return request(app)
           .get(`/people/${id}`);
       })
       .then(res => {
-        expect(res.body.name).toEqual('Uncle Bob');
+        console.log('response', res);
+        expect(res.body).toEqual({    
+          name: 'Uncle Bob',
+          age: 100,
+          favoriteColor: 'red',
+          _id: expect.any(String)
+        });
       });
 
 
   });
+
+  // it('updates a person by id', () => {
+  //   return
+  // })
 });
