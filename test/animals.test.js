@@ -16,13 +16,13 @@ const createAnimal = (name) => {
 describe('animal tests', () => {
 
   beforeEach((done) => {
-    rimraf('../data/animals', err => {
+    rimraf('./data/animals', err => {
       done(err);
     });
   });
 
   beforeEach((done) => {
-    mkdirp('../data/animals', err => {
+    mkdirp('./data/animals', err => {
       done(err);
     });
   });
