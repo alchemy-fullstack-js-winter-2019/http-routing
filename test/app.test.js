@@ -89,4 +89,15 @@ describe('dogs', () => {
         });
       });
   });
+
+  it('can find by id and delete a dog', () => {
+    return createDog('yellow lab')
+      .then(({ body }) => {
+        return request(app)
+          .delete(`/dogs/${body._id}`);
+      })
+      .then(({ body }) => {
+        expect(body).toEqual({ deleted: 1 });
+      });
+  });
 });

@@ -100,5 +100,4 @@ describe('tweets', () => {
         expect(body).toEqual({ deleted: 1 });
       });
   });
-
 });
