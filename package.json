@@ -19,8 +19,10 @@
     "supertest": "^3.4.1"
   },
   "scripts": {
+    "pretest": "npm run lint",
     "test": "jest",
     "test:watch": "jest --watch",
+    "lint": "eslint .",
     "start": "nodemon server.js"
   },
   "repository": {
