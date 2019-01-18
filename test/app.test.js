@@ -93,11 +93,12 @@ describe('app tests', () => {
           });
       });
   });
-  it.skip('deletes a person by id and returns delete count', () => {
+  it('deletes a person by id and returns delete count', () => {
     return createPerson('Connor')
-      .then(({ body }) => {
+      .then((createPerson) => {
+        const id = createPerson._id;
         return request(app)
-          .delete(`/people/${body._id}`)
+          .delete(`/people/${id}`)
           .then(res => {
             expect(res.body).toEqual({ deleted: 1 });
           });
