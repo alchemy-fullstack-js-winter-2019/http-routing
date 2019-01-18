@@ -72,24 +72,24 @@ describe('app tests', () => {
         expect(res.body.name).toContain('Tyler');
       });
   });
-  it.skip('updates a person by id', () => {
+  it('updates a person by id', () => {
     return createPerson('Tyler')
-      .then(({ body }) => {
+      .then((createdPerson) => {
+        const id = createdPerson._id;
         return request(app)
-          .put(`/people/${body._id}`)
+          .put(`/people/${id}`)
           .send({
-            name: body.name,
-            age: body.age,
+            name: createdPerson.name,
+            age: createdPerson.age,
             favoriteColor: 'green',
-            _id: body._id
+            _id: createdPerson._id
           })
-          .then(res => {
-            expect(res.body).toEqual({
-              name: 'Tyler',
-              age: 100,
-              favoriteColor: 'green',
-              _id: res.body._id
-            });
+          .then(() => {
+            return request(app)
+              .get(`/people/${id}`)
+              .then(res => {
+                expect(res.body.favoriteColor).toContain('green');
+              });
           });
       });
   });
