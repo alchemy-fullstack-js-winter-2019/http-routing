@@ -3,60 +3,26 @@ const request = require('supertest');
 const rimraf = require('rimraf');
 const mkdirp = require('mkdirp');
 
-const createPerson = (name) => {
+const createTweet = (handle) => {
   return request(app)
-    .post('/people')
+    .post('/tweets')
     .send({
-      name: name,
-      age: '100',
-      favoriteColor: 'red'
+      handle,
+      tweet: 'tweet tweet'
     });
 };
 
-// const createTweet = (handle) => {
-//   return request(app)
-//     .post('/tweets')
-//     .send({
-//       handle,
-//       tweet: 'tweet tweet'
-//     });
-// };
-
-describe('people', () => {
+describe('tweets', () => {
   beforeEach(done => {
-    rimraf('./data/people', err => {
+    rimraf('./data/tweets', err => {
       done(err);
     });
-    // rimraf('./data/tweets', err => {
-    //   done(err);
-    // });
   });
 
   beforeEach(done => {
-    mkdirp('./data/people', err => {
+    mkdirp('./data/tweets', err => {
       done(err);
     });
-    // mkdirp('./data/tweets', err => {
-    //   done(err);
-    // });
-  });
-
-  it('creates a person', () => {
-    return request(app)
-      .post('/people')
-      .send({
-        name: 'Uncle Bob',
-        age: '100',
-        favoriteColor: 'red'
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          name: 'Uncle Bob',
-          age: '100',
-          favoriteColor: 'red',
-          _id: expect.any(String)
-        });
-      });
   });
 
   it('creates a tweet!', () => {
@@ -75,66 +41,30 @@ describe('people', () => {
       });
   });
 
-  it('can get a list of people from our db', () => {
-    const namesToCreate = ['paige', 'bob', 'jim', 'frank', 'billy'];
-    return Promise.all(namesToCreate.map(createPerson))
+  it('can get a list of tweets from our db', () => {
+    const tweetsToCreate = ['yoyo', 'jelly123', 'jessie456'];
+    return Promise.all(tweetsToCreate.map(createTweet))
       .then(() => {
         return request(app)
-          .get('/people');
+          .get('/tweets');
       })
       .then(({ body }) => {
-        expect(body).toHaveLength(5);
+        expect(body).toHaveLength(3);
       });
   });
 
-  it('can get a person by id', () =>{
-    return createPerson('boohbah')
+  it('can get a tweet by id', () => {
+    return createTweet('boohbah')
       .then(({ body }) => {
         return request(app)
-          .get(`/people/${body._id}`);
+          .get(`/tweets/${body._id}`);
       })
       .then(({ body }) => {
         expect(body).toEqual({
-          name: 'boohbah',
-          age: '100',
-          favoriteColor: 'red',
+          handle: 'boohbah',
+          tweet: 'tweet tweet',
           _id: expect.any(String)
         });
-      });
-  });
-
-  it('can find by id and update', () => {
-    return createPerson('boohbah')
-      .then(({ body }) => {
-        return request(app)
-          .put(`/people/${body._id}`);
-      })
-      .then(({ body }) => {
-        return Promise.all([
-          Promise.resolve(body._id),
-          request(app)
-            .get(`/people/${body._id}`, () => {
-            })
-        ]);
-      })
-      .then(([_id, { body }]) => {
-        expect(body).toEqual({
-          name: 'banana',
-          age: '20',
-          favoriteColor: 'blue',
-          _id
-        });
-      });
-  });
-
-  it('can delete a person', () => {
-    return createPerson('jello')
-      .then(({ body }) => {
-        return request(app)
-          .delete(`/people/${body._id}`);
-      })
-      .then(({ body }) => {
-        expect(body).toEqual({ deleted: 1 });
       });
   });
 });
