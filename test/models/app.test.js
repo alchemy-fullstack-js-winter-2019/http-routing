@@ -72,9 +72,15 @@ describe('app tests', () => {
         });
       });
   });
+  it('updates a person by id', () => {
+    return createPerson('ryan')
+      .then(createdPerson => {
+        return request(app)
+          .put(`/people/${createdPerson._id}`)
+          .send({ name:'ryan1' });
+      })
+      .then(res => {
+        expect(res.body.name).toEqual('ryan1');
+      });
+  });
 });
-
-
-// it.('updates a person by id', => {
-
-// });
