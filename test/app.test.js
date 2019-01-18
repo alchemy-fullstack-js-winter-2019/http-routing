@@ -65,7 +65,41 @@ describe('app tests', () => {
           .get(`/people/${id}`);
       })
       .then(res => {
-        expect(res.body.name).toEqual(res.body_id);
+        expect(res.body.name).toEqual(res.body._id);
+      });
+  });
+
+  it('updates a person with id', () => {
+    return createPerson('mary')
+      .then(createdPerson => {
+        const id = createdPerson._id;
+        return request(app)
+          .put(`/people/${id}`)
+          .send({ 
+            name: 'Margaret',
+            age: 50,
+            favoriteColor: 'blue',
+          })
+          .then(res => {
+            expect(res.body).toEqual({ 
+              name: 'Margaret',
+              age: 50,
+              favoriteColor: 'blue',
+              _id: expect.any(String)
+            });
+          });
+      });
+  });
+  it('deletes person by id', () => {
+    return createPerson('mary')
+      .then(createdPerson => {
+        const id = createdPerson._id;
+        return request(app)
+          .delete(`/people/${id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ deleted: 1 });
       });
   });
 });
+
