@@ -9,7 +9,8 @@ const createPerson = name => {
       .send({
         name: name,
         age: 100,
-        favoriteColor: 'red'
+        favoriteColor: 'red',
+        favCharId: 1
       })
     .then(res => res.body);
 }
@@ -29,14 +30,17 @@ describe('app tests', () => {
       .send({
         name: 'Uncle bob',
         age: 100,
-        favoriteColor: 'red'
+        favoriteColor: 'red',
+        favCharId: 1
+
       })
       .then(res => {
         expect(res.body).toEqual({
           name: 'Uncle bob',
           age: 100,
           favoriteColor: 'red',
-          _id: expect.any(String)
+          _id: expect.any(String),
+          favCharId: 1
         })
       })
   })
@@ -74,7 +78,9 @@ describe('app tests', () => {
             name: 'tt1',
             age: 31,
             favoriteColor: 'purple',
-            id: id
+            id: id,
+            favCharId: 1
+
           })
           .then(() => {
             return request(app)
@@ -84,13 +90,14 @@ describe('app tests', () => {
                   name: 'tt1',
                   age: 31,
                   favoriteColor: 'purple',
-                  _id: id
+                  _id: id,
+                  favCharId: 1
                 })
             })
           })
       })
-
   })
+
   it('deletes by id', () => {
     return createPerson ('deletedTeonna')
       .then(createdPerson => {
