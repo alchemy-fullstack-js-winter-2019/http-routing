@@ -40,4 +40,16 @@ describe('dogs', () => {
         });
       });
   });
+
+  it('can get a list of dogs from our db', () => {
+    const dogsToCreate = ['pug', 'goldendoodle', 'poodle', 'old english sheepdog', 'portugeuse water dog'];
+    return Promise.all(dogsToCreate.map(createDog))
+      .then(() => {
+        return request(app)
+          .get('/dogs');
+      })
+      .then(({ body }) => {
+        expect(body).toHaveLength(5);
+      });
+  });
 });
