@@ -23,28 +23,38 @@ const createPuppy = (name, age = 1) => {
     })
     .then(res => res.body);
 };
+const createCat = (name, age = 2) => {
+  return request(app)
+    .post('/cats')
+    .send({
+      name,
+      age: age,
+      favoriteFood: 'catnip'
+    })
+    .then(res => res.body);
+};
 
 // APP ------------------------------------------
 describe('app tests', () => {
-  // beforeAll(done => {
-  //   rimraf('./data/people/*', done);
-  //   rimraf('./data/puppies/*', done);
-  // });
   beforeAll(done => {
     createPerson('sam');
     createPuppy('stinker');
+    createCat('rabbit');
     mkdirp('./data/people', done);
     mkdirp('./data/puppies', done);
+    mkdirp('./data/cats', done);
     done();
   });
   afterEach(done => {
     rimraf('./data/people/*', done);
     rimraf('./data/puppies/*', done);
+    rimraf('./data/cats/*', done);
     done();
   });
   afterAll(done => {
     createPerson('sam');
     createPuppy('stinker');
+    createCat('rabbit');
     done();
   });
 
@@ -83,6 +93,23 @@ describe('app tests', () => {
         });
       });
   });
+  it('creates a cat', () => {
+    return request(app)
+      .post('/cats')
+      .send({
+        name: 'niki',
+        age: 3,
+        favoriteFood: 'snacks'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'niki',
+          age: 3,
+          favoriteFood: 'snacks',
+          _id: expect.any(String)
+        });
+      });
+  });
 
   // GET LIST ------------------------------------------
   it('gets a list of people from our db', () => {
@@ -102,6 +129,17 @@ describe('app tests', () => {
       .then(() => {
         return request(app)
           .get('/puppies');
+      })
+      .then(({ body }) => {
+        expect(body).toHaveLength(4);
+      });
+  });
+  it('gets a list of cats from our db', () => {
+    const namesToCreate = ['silki', 'kiki', 'bobby', 'max'];
+    return Promise.all(namesToCreate.map(createCat))
+      .then(() => {
+        return request(app)
+          .get('/cats');
       })
       .then(({ body }) => {
         expect(body).toHaveLength(4);
@@ -136,6 +174,22 @@ describe('app tests', () => {
               name: 'tortilla',
               age: 1,
               favoriteFood: 'bacon',
+              _id
+            });
+          });
+      });
+  });
+  it('gets a cat by id', () => {
+    return createCat('zorro')
+      .then(catWhoWasCreated => {
+        const _id = catWhoWasCreated._id;
+        return request(app)
+          .get(`/cats/${_id}`)
+          .then(res => {
+            expect(res.body).toEqual({
+              name: 'zorro',
+              age: 2,
+              favoriteFood: 'catnip',
               _id
             });
           });
@@ -177,6 +231,23 @@ describe('app tests', () => {
         expect(res.body.name).toEqual('umbro');
       });
   });
+  it('updates a cat with :id and returns the update', () => {
+    let newCat = {
+      name: 'smelly',
+      age: 1,
+      favoriteFood: 'humus'
+    };
+    return createCat('smelly')
+      .then(createdCat => {
+        const _id = createdCat._id;
+        return request(app)
+          .put(`/cats/${_id}`)
+          .send(newCat);
+      })
+      .then(res => {
+        expect(res.body.name).toEqual('smelly');
+      });
+  });
 
   // DELETE ------------------------------------------
   it('can delete a person with :id and returns the delete count', () => {
@@ -196,6 +267,17 @@ describe('app tests', () => {
         const _id = puppyWhoWasCreated._id;
         return request(app)
           .delete(`/puppies/${_id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+          });
+      });
+  });
+  it('can delete a cat with :id and returns the delete count', () => {
+    return createCat('hei')
+      .then(catWhoWasCreated => {
+        const _id = catWhoWasCreated._id;
+        return request(app)
+          .delete(`/cats/${_id}`)
           .then(res => {
             expect(res.body).toEqual({ deleted: 1 });
           });
