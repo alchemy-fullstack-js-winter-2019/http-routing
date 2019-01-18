@@ -2,14 +2,16 @@ const request = require('supertest');
 const app = require('../lib/app');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
+const getSWCharacter = require('../services/starwarsAPI');
 
-const createPerson = name => {
-  return request(app)
+const createPerson = (name, favoriteCharacterId) => {
+  request(app)
     .post('/people')
     .send({
-      name: name,
-      age: 100,
-      favoriteColor: 'red'
+        name: name,
+        age: 100,
+        favoriteColor: 'red',
+        favoriteCharacterId: favoriteCharacterId
     });
 };
 
@@ -41,13 +43,20 @@ describe('app tests', () => {
       .send({
         name: 'Uncle Bob',
         age: 100,
-        favoriteColor: 'red'
+        favoriteColor: 'red',
+        favoriteCharacterId: 1
       })
       .then(res => {
         expect(res.body).toEqual({
           name: 'Uncle Bob',
           age: 100,
           favoriteColor: 'red',
+          favoriteCharacterId: 1,
+          favoriteCharacter: {
+            name: 'Luke Skywalker',
+            height: '172',
+            hairColor: 'blond'
+          },
           _id: expect.any(String) 
         });
       });
