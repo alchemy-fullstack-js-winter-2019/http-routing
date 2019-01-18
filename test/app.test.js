@@ -4,7 +4,7 @@ const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 
 const createPerson = (name) => {
-  request(app)
+  return request(app)
     .post('/people')
     .send({
       name: name,
@@ -61,14 +61,15 @@ describe('app tests', () => {
         expect(body).toHaveLength(4);
       });
   });
-  it.skip('gets a person by id', () => {
+  it('gets a person by id', () => {
     return createPerson('Tyler')
-      .then(({ body }) => {
+      .then((createdPerson) => {
+        const id = createdPerson._id;
         return request(app)
-          .get(`/people/${body._id}`)
-          .then(res => {
-            expect(res.body._id).toEqual(body._id);
-          });
+          .get(`/people/${id}`);
+      })
+      .then(res => {
+        expect(res.body.name).toContain('Tyler');
       });
   });
   it.skip('updates a person by id', () => {
