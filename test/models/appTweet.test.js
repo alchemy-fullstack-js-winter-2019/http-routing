@@ -79,6 +79,7 @@ describe('gets people', () => {
         return request(app) 
           .put(`/tweets/${id}`)
           .send(updatedObject)
+          /* eslint-disable-next-line*/
           .then(res => {
             return request(app)
               .get(`/tweets/${id}`)

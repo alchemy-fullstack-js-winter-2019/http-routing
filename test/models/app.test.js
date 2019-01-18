@@ -4,13 +4,15 @@ const request = require('supertest');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf'); 
 
+
 const createPerson = (name) => {
   return request(app)
     .post('/people')
     .send({
       name: name,
       age: 40,
-      favoriteColor: 'Periwinkle' 
+      favoriteColor: 'Periwinkle',
+      favoriteCharacterId: 1
     })
     .then(res => res.body);
 };
@@ -31,15 +33,11 @@ describe('gets people', () => {
       .send({
         name: 'Jeffery',
         age: '40',
-        favoriteColor: 'Periwinkle' 
+        favoriteColor: 'Periwinkle',
+        favoriteCharacterId: 1
       })
       .then(res => {
-        expect(res.body).toEqual({
-          name: 'Jeffery',
-          age: '40',
-          favoriteColor: 'Periwinkle',
-          _id: expect.any(String)
-        });
+        expect(res.text).toContain('Luke');
       });
   });
   it('gets a people', () => {
@@ -52,6 +50,9 @@ describe('gets people', () => {
       .then(({ body }) => {
         expect(body).toHaveLength(4);
       });
+  });
+  it('is able to add a favorite person', () => {
+
   });
   it('gets a person by id', () => {
     return createPerson('marcy1')
@@ -80,6 +81,7 @@ describe('gets people', () => {
         return request(app) 
           .put(`/people/${id}`)
           .send(updatedObject)
+          /* eslint-disable-next-line*/
           .then(res => {
             return request(app)
               .get(`/people/${id}`)

@@ -80,6 +80,7 @@ describe('gets dog', () => {
         return request(app) 
           .put(`/dogs/${id}`)
           .send(updatedObject)
+          /* eslint-disable-next-line*/
           .then(res => {
             return request(app)
               .get(`/dogs/${id}`)
