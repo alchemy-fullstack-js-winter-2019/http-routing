@@ -67,4 +67,26 @@ describe('tweets', () => {
         });
       });
   });
+
+  it('can find a tweet by id and update', () => {
+    return createTweet('yolo420')
+      .then(({ body }) => {
+        return request(app)
+          .put(`/tweets/${body._id}`);
+      })
+      .then(({ body }) => {
+        return Promise.all([
+          Promise.resolve(body._id),
+          request(app)
+            .get(`/tweets/${body._id}`)
+        ]);
+      })
+      .then(([_id, { body }]) => {
+        expect(body).toEqual({
+          handle: 'yogurt420',
+          tweet: 'yolo!',
+          _id
+        });
+      });
+  });
 });
