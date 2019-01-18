@@ -38,15 +38,10 @@ describe('people tests', () => {
         favoriteCharacterId: 1
       })
       .then(res => {
-        expect(res.body).toEqual({
-          name: 'Eminem',
-          age: 35,
-          favoriteColor: 'black',
-          favoriteCharacterId: 1, 
-          _id: expect.any(String)
-        });
+        expect(res.body.favoriteCharacter.name).toContain('Luke Skywalker');
       });
   });
+ 
 
   it('can list all the people in the database', () => {
     const names = ['kristin1', 'kristin2', 'kristin3', 'kristin4'];

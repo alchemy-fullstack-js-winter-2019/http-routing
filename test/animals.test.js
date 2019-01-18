@@ -16,13 +16,13 @@ const createAnimal = (name) => {
 describe('animal tests', () => {
 
   beforeEach((done) => {
-    rimraf('./data/animals', err => {
+    rimraf('../data/animals', err => {
       done(err);
     });
   });
 
   beforeEach((done) => {
-    mkdirp('./data/animals', err => {
+    mkdirp('../data/animals', err => {
       done(err);
     });
   });
@@ -72,8 +72,8 @@ describe('animal tests', () => {
       .then((createdAnimal) => {
         const id = createdAnimal._id;
         const updatedObject = {
-          name: 'bengal tiger',
-          type: 'mammal'
+          name: 'snake',
+          type: 'reptile'
         };
         return request(app)
           .put(`/animals/${id}`)
@@ -82,7 +82,7 @@ describe('animal tests', () => {
             return request(app)
               .get(`/animals/${id}`)
               .then(res => {
-                expect(res.body.name).toContain('bengal tiger');
+                expect(res.body.name).toContain('snake');
               });
           });
       });
