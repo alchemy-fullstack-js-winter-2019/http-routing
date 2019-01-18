@@ -75,17 +75,28 @@ describe('app tests', () => {
       });
   });
   //find by id and update 
-  it.only('find person by id and updates', ()=> {
-    return createPerson('jon')
-      .then(createdPerson => {
+  it('find person by id and updates', ()=> {
+    return createPerson('juan')
+      .then(updated => {
         return request(app)
-          .put(`/people/${createdPerson._id}`)
+          .put(`/people/${updated._id}`)
           .send({ name: 'johnny' });
       })
       .then(res => {
         expect(res.body.name).toContain('johnny');
       });   
   });
+  it.only('finds by id and deletes', ()=> {
+    return createPerson('pedro')
+      .then(createdPerson => {
+        return request(app)
+          .delete(`/people/${ createdPerson._id }`);
+      })
+      .then(res=>{
+        expect(res.body).toEqual({ deleted: 1 });
+      });
+  });
+  
 
 });
 
