@@ -85,19 +85,30 @@ describe('app test', () => {
         return request (app)
           .put(`/people/${id}`)
           .send({ 
-            name: 'Maria',
+            name: 'Donald',
             age: 100,
             favoriteColor: 'blue',
-            _id: expect.any(String)
+            // id: expect.any(String)
           })
           .then(res => {
-            expect(res.body.name).toEqual({
-              name: 'Maria',
+            expect(res.body).toEqual({
+              name: 'Donald',
               age: 100,
               favoriteColor: 'blue',
               _id: expect.any(String)
             });
           });
+      });
+  });
+  it('deletes a record', () => {
+    return createPerson ('Bill')
+      .then((createdPerson) => {
+        const id = createdPerson._id;
+        return request (app)
+          .delete(`/people/${id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ deleted: 1 });
       });
   });
 });
