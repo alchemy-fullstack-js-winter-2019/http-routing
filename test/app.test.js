@@ -62,28 +62,42 @@ describe('app test', () => {
   });
   // return Array.from(Array(10)) //creates an array with 10 people
   it('gets a person by id', () => {
-    console.log('HERE');
     return createPerson('Uncle Bob')
       .then((createdPerson) => { //(_id)
-        console.log('person', createdPerson);
         const id = createdPerson._id;
         return request(app)
           .get(`/people/${id}`);
       })
       .then(res => {
-        console.log('response', res);
         expect(res.body).toEqual({    
           name: 'Uncle Bob',
           age: 100,
           favoriteColor: 'red',
           _id: expect.any(String)
-        });
+        }); //Another way to obtain expect(res.body.name).toEqual(res.body_id);
       });
-
-
   });
 
-  // it('updates a person by id', () => {
-  //   return
-  // })
+  it('updates a person by id', () => {
+    return createPerson('maria')
+      .then((createdPerson) => {
+        const id = createdPerson._id;
+        return request (app)
+          .put(`/people/${id}`)
+          .send({ 
+            name: 'Maria',
+            age: 100,
+            favoriteColor: 'blue',
+            _id: expect.any(String)
+          })
+          .then(res => {
+            expect(res.body.name).toEqual({
+              name: 'Maria',
+              age: 100,
+              favoriteColor: 'blue',
+              _id: expect.any(String)
+            });
+          });
+      });
+  });
 });
