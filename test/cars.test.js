@@ -3,55 +3,48 @@ const app = require('../lib/app');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 
-const createPerson = (name) => {
+const createCar = (brand) => {
     return request(app)
-        .post('/people')
+        .post('/cars')
         .send({
-            name: name,
-            age: 100,
-            favoriteColor: 'red'
+            brand: brand,
+
         })
         .then(res => res.body);
 
 };
-
-describe('it test various rest methods', () => {
-    
+describe('test cars routes', () => {
     beforeEach(done => {
-        rimraf('./data/people', err => {
+        rimraf('./data/cars', err => {
             done(err);
         });
     });
     beforeEach(done => {
-        mkdirp('./data/people', err => {
+        mkdirp('./data/cars', err => {
             done(err);
         });
     });
-    it('can create new people', () => {
+    it('can create new cars', () => {
         return request(app)
-            .post('/people')
+            .post('/cars')
             .send({
-                name: 'Uncle bob',
-                age: 100,
-                favoriteColor: 'red',
+                brand: 'tesla'
             })
             .then(res => {
                 expect(res.body).toEqual({
-                    name: 'Uncle bob',
-                    age: 100,
-                    favoriteColor: 'red', 
+                    brand: 'tesla',
                     _id: expect.any(String)
                     
                 });
             });
     });
-
+    //next it 
     it('can test the GET method', () => {
-        const namesToCreate = ['lance', 'lance1', 'lance2'];
-        return Promise.all(namesToCreate.map(createPerson))
+        const carsToCreate = ['toyota', 'honda', 'bmw'];
+        return Promise.all(carsToCreate.map(createCar))
             .then(() => {
                 return request(app)
-                    .get('/people');
+                    .get('/cars');
             })
             .then(({ body }) => {
                 expect(body).toHaveLength(3);
@@ -59,40 +52,45 @@ describe('it test various rest methods', () => {
     });
 
     it('gets a person by id', () => {
-        return createPerson('lance1')
-            .then(createdPerson => {
-                const id = createdPerson._id;
+        return createCar('bmw')
+            .then(createdCar => {
+                const id = createdCar._id;
                 return request(app)
-                    .get(`/people/${id}`);
+                    .get(`/cars/${id}`);
             })
             .then(({ body }) => {
-                expect(body.name).toContain('lance1');
+                expect(body.brand).toContain('bmw');
             });
     });
-
     it('can find by id and update a person', () => {
-        return createPerson('lance47')
-            .then(createdPerson => {
-                const id  = createdPerson._id;
-                createdPerson.name = 'lanceUPDATED';
+        return createCar('BMW')
+            .then(createdCar => {
+                const id  = createdCar._id;
+                createdCar.name = 'lanceUPDATED';
                 return request(app)
-                    .put(`/people/${id}`)
-                    .send(createdPerson);
+                    .put(`/cars/${id}`)
+                    .send(createdCar);
             })
             .then(({ body }) => {
                 expect(body.name).toContain('lanceUPDATED');
             });
     });
     it('can delete a file/person', () => {
-        return createPerson('lance50')
-            .then(createdPerson => {
-                const id = createdPerson._id;
+        return createCar('BMW')
+            .then(createdCar => {
+                const id = createdCar._id;
                 return request(app)
-                    .delete(`/people/${id}`);
+                    .delete(`/cars/${id}`);
             })
             .then(({ body }) => {
                 expect(body).toEqual({ 'deleted' : 1 });
             });
     });
+
+
+
+
+
+
 });
 
