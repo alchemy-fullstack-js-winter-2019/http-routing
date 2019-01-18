@@ -42,7 +42,6 @@ describe('people tests', () => {
       });
   });
  
-
   it('can list all the people in the database', () => {
     const names = ['kristin1', 'kristin2', 'kristin3', 'kristin4'];
     return Promise.all(names.map(createPerson))
