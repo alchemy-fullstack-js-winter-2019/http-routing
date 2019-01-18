@@ -12,4 +12,6 @@ const getCharacter = id => {
     }));
 };
 
-const get
+module.exports = {
+  getCharacter
+};
