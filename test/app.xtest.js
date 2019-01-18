@@ -79,11 +79,11 @@ describe('app tests', () => {
     return createPerson('ryan')
       .then(createdPerson => {
         return request(app)
-          .put(`/people/${createdPerson._id}`) //.delete('')
+          .put(`/people/${createdPerson._id}`)
           .send({ name: 'ryan1' });
       })
       .then(res => {
-        expect(res.body.name/*take out .name*/).toEqual('ryan1'/* { deleted: 1 } */);
+        expect(res.body.name).toEqual('ryan1');
       });
   });
 

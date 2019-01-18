@@ -1,6 +1,6 @@
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
-const Store = require('../../lib/models/index');
+const Store = require('../../lib/model/index');
 
 describe('Store', () => {
   let store = null;
@@ -73,6 +73,7 @@ describe('Store', () => {
       });
     });
   });
+
   it('updates and existing object', done => {
     // store.create
     store.create({ name: 'rayn' }, (err, typoCreated) => {
