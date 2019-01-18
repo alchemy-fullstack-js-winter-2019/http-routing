@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const app = require('../lib/app');
+const app = require('../../lib/app');
 const mkdirp = require('mkdirp');
 const request = require('supertest');
 const rimraf = require('rimraf');
@@ -10,7 +10,8 @@ const makePerson = (name) => {
     .send({
       name: name,
       job: 'web developer',
-      pets: 'Kaiya & Kingsly'
+      pets: 'Kaiya & Kingsly',
+      favoriteCharacterId: '1'
     })
     .then(res => res.body);
 };
@@ -36,13 +37,21 @@ describe('people tests', () => {
       .send({
         name: 'Kate Dameron',
         job: 'web developer',
-        pets: 'Kaiya & Kingsly'
+        pets: 'Kaiya & Kingsly',
+        favoriteCharacterId: '1'
       })
       .then(res => {
         expect(res.body).toEqual({
           name: 'Kate Dameron',
           job: 'web developer',
           pets: 'Kaiya & Kingsly',
+          favoriteCharacterId: '1',
+          favoriteCharacter: {
+            name: 'Luke Skywalker',
+            height: '172',
+            mass: '77',
+            hairColor: 'blond',
+            birthYear: '19BBY' },
           _id: expect.any(String)
         });
       });
@@ -74,6 +83,7 @@ describe('people tests', () => {
           name: 'Kate4',
           job: 'web developer',
           pets: 'Kaiya & Kingsly',
+          favoriteCharacterId: '1',
           _id: expect.any(String)
         });
       });
@@ -89,6 +99,7 @@ describe('people tests', () => {
             name: 'Kate D',
             job: 'developer',
             pets: 'Kaiya and Kingsly',
+            favoriteCharacterId: '1',
             id: id
           })
           .then(() => {
@@ -99,6 +110,7 @@ describe('people tests', () => {
                   name: 'Kate D',
                   job: 'developer',
                   pets: 'Kaiya and Kingsly',
+                  favoriteCharacterId: '1',
                   _id: id
                 });
               });
