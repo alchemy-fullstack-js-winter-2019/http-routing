@@ -179,6 +179,16 @@ describe('tweets tests', () => {
           });
       });
   });
+  it('deletes a tweet by id', () => {
+    return createTweet('tyler', 'Thank you Kayne! Very cool!')
+      .then(({ body }) => {
+        return request(app)
+          .delete(`/tweets/${body._id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+          });
+      });
+  });
 });
 
 
