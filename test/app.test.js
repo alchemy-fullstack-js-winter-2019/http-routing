@@ -74,6 +74,7 @@ describe('app tests', () => {
         });
       });
   });
+  //find by id and update 
   it.only('find person by id and updates', ()=> {
     return createPerson('jon')
       .then(createdPerson => {
