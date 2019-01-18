@@ -10,12 +10,12 @@ const createPerson = (name) => {
       name: name,
       age: 31,
       favoriteColor: 'Blue',
-      _id: expect.any(String)
+      favoriteCharId: 1
     })
     .then(res => res.body);
 };
 
-describe('app', () => {
+describe('people test', () => {
   beforeEach(done => {
     rimraf('./data/people', err => {
       done(err);
@@ -34,15 +34,11 @@ describe('app', () => {
       .send({
         name: 'Aaron',
         age: 31,
-        favoriteColor: 'Blue'
+        favoriteColor: 'Blue',
+        favoriteCharId: 1
       })
       .then(res => {
-        expect(res.body).toEqual({
-          name: 'Aaron',
-          age: 31,
-          favoriteColor: 'Blue',
-          _id: expect.any(String)
-        });
+        expect(res.body.favoriteCharacter.name).toContain('Luke Skywalker');
       });
   });
 
@@ -76,6 +72,7 @@ describe('app', () => {
       .then(createdPerson => {
         const id = createdPerson._id;
         createdPerson.name = 'Peter2';
+        createdPerson.favoriteCharId = 3;
         return request(app)
           .put(`/people/${id}`)
           .send(createdPerson);
