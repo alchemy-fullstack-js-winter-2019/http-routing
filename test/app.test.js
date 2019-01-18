@@ -52,4 +52,21 @@ describe('dogs', () => {
         expect(body).toHaveLength(5);
       });
   });
+
+  it('can get a dog by id', () => {
+    return createDog('bernese mountain dog')
+      .then(({ body }) => {
+        return request(app)
+          .get(`/dogs/${body._id}`);
+      })
+      .then(({ body }) => {
+        expect(body).toEqual({
+          breed: 'bernese mountain dog',
+          name: 'pig',
+          _id: expect.any(String)
+        });
+      });
+  });
+
+
 });
