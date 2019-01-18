@@ -37,7 +37,7 @@ describe('gets people', () => {
         favoriteCharacterId: 1
       })
       .then(res => {
-        expect(res.text).toContain('Luke');
+        expect(res.body.favoriteCharacter.name).toContain('Luke Skywalker');
       });
   });
   it('gets a people', () => {
@@ -50,9 +50,6 @@ describe('gets people', () => {
       .then(({ body }) => {
         expect(body).toHaveLength(4);
       });
-  });
-  it('is able to add a favorite person', () => {
-
   });
   it('gets a person by id', () => {
     return createPerson('marcy1')
