@@ -68,5 +68,25 @@ describe('dogs', () => {
       });
   });
 
-
+  it('can find a dog by id and update', () => {
+    return createDog('pug')
+      .then(({ body }) => {
+        return request(app)
+          .put(`/dogs/${body._id}`);
+      })
+      .then(({ body }) => {
+        return Promise.all([
+          Promise.resolve(body._id),
+          request(app)
+            .get(`/dogs/${body._id}`)
+        ]);
+      })
+      .then(([_id, { body }]) => {
+        expect(body).toEqual({
+          breed: 'pug',
+          name: 'pig',
+          _id
+        });
+      });
+  });
 });
