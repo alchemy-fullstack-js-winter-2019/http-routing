@@ -57,7 +57,7 @@ describe('app tests', () => {
       });
   });
 
-  it.only('gets a person by id', () => {
+  it('gets a person by id', () => {
     return createPerson('ivan')
       .then(createdPerson => {
         const id = createdPerson._id;
@@ -71,6 +71,18 @@ describe('app tests', () => {
           age: 30,
           favoriteSport: 'basketball'
         });
+      });
+  });
+
+  it('can update a person', () => {
+    return createPerson('ivan')
+      .then(createdPerson => {
+        return request(app)
+          .put(`/people/${createdPerson._id}`)
+          .send({ name: 'navi' });
+      })
+      .then(res => {
+        expect(res.body.name).toEqual('navi');
       });
   });
 });
