@@ -98,4 +98,3 @@
 ```
 * when a person is updated via `PUT` update the favoriteCharacter also
   * BONUS: only make a new api request if the favoriteCharacter changed
-

@@ -83,4 +83,14 @@ describe('app tests', () => {
         expect(res.body.name).toEqual('ryan1');
       });
   });
+  it('deletes a person by id', () => {
+    return createPerson('ryan')
+      .then(({ _id }) => {
+        return request(app)
+          .delete(`/people/${_id}`);
+      })
+      .then(({ body }) => {
+        expect(body).toEqual({ deleted: 1 });
+      });
+  });
 });
