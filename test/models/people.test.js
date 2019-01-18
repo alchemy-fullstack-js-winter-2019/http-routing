@@ -10,7 +10,7 @@ const makePerson = (name) => {
     .send({
       name: name,
       job: 'web developer',
-      pets: 'Kaiya & Kingsly',
+      pets: 'Kaiya & Kingsley',
       favoriteCharacterId: '1'
     })
     .then(res => res.body);
@@ -37,14 +37,14 @@ describe('people tests', () => {
       .send({
         name: 'Kate Dameron',
         job: 'web developer',
-        pets: 'Kaiya & Kingsly',
+        pets: 'Kaiya & Kingsley',
         favoriteCharacterId: '1'
       })
       .then(res => {
         expect(res.body).toEqual({
           name: 'Kate Dameron',
           job: 'web developer',
-          pets: 'Kaiya & Kingsly',
+          pets: 'Kaiya & Kingsley',
           favoriteCharacterId: '1',
           favoriteCharacter: {
             name: 'Luke Skywalker',
@@ -57,7 +57,7 @@ describe('people tests', () => {
       });
   });
 
-  it('get a list of people from our db', () => {
+  it('get a list of people from db', () => {
     // Promise.all will make sure that all people are return before we move on with the test instead of having to next create>create>create
     return Promise.all(['Kate', 'Kate2', 'Kate3'].map(name => {
       return makePerson(name);
@@ -82,7 +82,7 @@ describe('people tests', () => {
         expect(res.body).toEqual({
           name: 'Kate4',
           job: 'web developer',
-          pets: 'Kaiya & Kingsly',
+          pets: 'Kaiya & Kingsley',
           favoriteCharacterId: '1',
           _id: expect.any(String)
         });
@@ -98,7 +98,7 @@ describe('people tests', () => {
           .send({
             name: 'Kate D',
             job: 'developer',
-            pets: 'Kaiya and Kingsly',
+            pets: 'Kaiya and Kingsley',
             favoriteCharacterId: '1',
             id: id
           })
@@ -109,7 +109,7 @@ describe('people tests', () => {
                 expect(res.body).toEqual({
                   name: 'Kate D',
                   job: 'developer',
-                  pets: 'Kaiya and Kingsly',
+                  pets: 'Kaiya and Kingsley',
                   favoriteCharacterId: '1',
                   _id: id
                 });

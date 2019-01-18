@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const http = require('http');
 const app = require('./lib/app');
 
