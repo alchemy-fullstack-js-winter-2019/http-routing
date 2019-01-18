@@ -103,8 +103,8 @@ describe.skip('people', () => {
         return request(app)
           .delete(`/people/${body._id}`);
       })
-      .then((res) => {
-        expect(res.body).toEqual({ deleted: 1 });
+      .then(({ body }) => {
+        expect(body).toEqual({ deleted: 1 });
       });
   });
 });

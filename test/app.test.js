@@ -89,4 +89,15 @@ describe('tweets', () => {
         });
       });
   });
+
+  it('can delete a tweet', () => {
+    return createTweet('rimrafin')
+      .then(({ body }) => {
+        return request(app)
+          .delete(`/tweets/${body._id}`);
+      })
+      .then(({ body }) => {
+        expect(body).toEqual({ deleted: 1 });
+      });
+  });
 });
