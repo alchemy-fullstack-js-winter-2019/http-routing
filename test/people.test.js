@@ -40,12 +40,10 @@ describe('it test various rest methods', () => {
                     name: 'Uncle bob',
                     age: 100,
                     favoriteColor: 'red', 
-                    _id: expect.any(String)
-                    
+                    _id: expect.any(String)   
                 });
             });
     });
-
     it('can test the GET method', () => {
         const namesToCreate = ['lance', 'lance1', 'lance2'];
         return Promise.all(namesToCreate.map(createPerson))
@@ -57,7 +55,6 @@ describe('it test various rest methods', () => {
                 expect(body).toHaveLength(3);
             });
     });
-
     it('gets a person by id', () => {
         return createPerson('lance1')
             .then(createdPerson => {
@@ -69,7 +66,6 @@ describe('it test various rest methods', () => {
                 expect(body.name).toContain('lance1');
             });
     });
-
     it('can find by id and update a person', () => {
         return createPerson('lance47')
             .then(createdPerson => {
