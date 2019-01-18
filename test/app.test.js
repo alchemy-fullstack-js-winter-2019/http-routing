@@ -284,4 +284,13 @@ describe('app tests', () => {
       });
   });
 
+  // NOT FOUND
+  it('displays error when path not found', () => {
+    return request(app)
+      .get('/boooooooooo')
+      .then(res => {
+        expect(res.status).toEqual(404);
+      });
+  });
+
 });
