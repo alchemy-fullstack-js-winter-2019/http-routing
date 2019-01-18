@@ -24,6 +24,7 @@ const createPuppy = (name, age = 1) => {
     .then(res => res.body);
 };
 
+// APP ------------------------------------------
 describe('app tests', () => {
   // beforeAll(done => {
   //   rimraf('./data/people/*', done);
@@ -47,7 +48,7 @@ describe('app tests', () => {
     done();
   });
 
-  // CREATE
+  // CREATE ------------------------------------------
   it('creates a person', () => {
     return request(app)
       .post('/people')
@@ -83,7 +84,7 @@ describe('app tests', () => {
       });
   });
 
-  // GET LIST
+  // GET LIST ------------------------------------------
   it('gets a list of people from our db', () => {
     const namesToCreate = ['cari', 'cari1', 'cari2', 'cari3'];
     return Promise.all(namesToCreate.map(createPerson))
@@ -107,7 +108,7 @@ describe('app tests', () => {
       });
   });
 
-  // GET BY ID
+  // GET BY ID ------------------------------------------
   it('gets a person by id', () => {
     return createPerson('cari')
       .then(personWhoWasCreated => {
@@ -141,7 +142,7 @@ describe('app tests', () => {
       });
   });
 
-  // PUT
+  // PUT ------------------------------------------
   it('updates a person with :id and returns the update', () => {
     let newPerson = {
       name: 'steve',
@@ -177,17 +178,28 @@ describe('app tests', () => {
       });
   });
 
-
-  // it('can delete a person with :id and returns the delete count', () => {
-  //   return createPerson('carl')
-  //     .then(personWhoWasCreated => {
-  //       const _id = personWhoWasCreated._id;
-  //       return request(app)
-  //         .delete(`/people/${_id}`)
-  //         .then(res => {
-  //           expect(res.body).toEqual({ deleted: 1 });
-  //         });
-  //     });
-  // });
+  // DELETE ------------------------------------------
+  it('can delete a person with :id and returns the delete count', () => {
+    return createPerson('carl')
+      .then(personWhoWasCreated => {
+        const _id = personWhoWasCreated._id;
+        return request(app)
+          .delete(`/people/${_id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+          });
+      });
+  });
+  it('can delete a puppy with :id and returns the delete count', () => {
+    return createPuppy('bumper')
+      .then(puppyWhoWasCreated => {
+        const _id = puppyWhoWasCreated._id;
+        return request(app)
+          .delete(`/puppies/${_id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+          });
+      });
+  });
 
 });
