@@ -73,4 +73,18 @@ describe('app tests', () => {
         });
       });
   });
+
+  it('updates a person with id and returns the update', () => {
+    return createPerson('Vic Demise')
+      .then (createdPerson => {
+        return request(app)
+          .put(`/people/${createdPerson._id}`)
+          .send ({ name: 'Pierce Deerhart' });
+      })
+      .then (res => {
+        expect(res.createPerson.name).toEqual('Pierce Deerhart');
+      });
+  });
+
+
 });
