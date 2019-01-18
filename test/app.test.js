@@ -1,7 +1,7 @@
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const request = require('supertest');
-const app = require('../lib/app');
+const app = require('../lib/routing/people');
 
 describe('app tests', () => {
   beforeEach(done => {
