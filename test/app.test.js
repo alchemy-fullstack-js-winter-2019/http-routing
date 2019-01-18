@@ -13,8 +13,6 @@ const createPerson = (name) => {
     })
     .then(res => res.body); //to only get the json
 };
-
-
 describe('app test', () => {
   beforeEach(done => {
     rimraf('./data/people', err => { //remove the people directory
@@ -22,15 +20,12 @@ describe('app test', () => {
 
     });
   });
-
   beforeEach(done => {
     mkdirp('./data/people', err => { //makes the directory with data and people
       done(err); 
       //mkdirp('./data/people, done)done is function that takes error
     });
   });
-
-
   it('creates a person', () => {
     return request(app) //this lets gets know it's a promise
       .post('/people') //execute a post
@@ -48,7 +43,6 @@ describe('app test', () => {
         });
       });
   });
-
   it('gets a list of people from our db', () => {
     const namesToCreate = ['ryan', 'ryan1', 'ryan2']; //names of people want to create
     return Promise.all(namesToCreate.map(createPerson)) //map through it to crate a person. want to fulfill promise before moving to the next step
@@ -77,7 +71,6 @@ describe('app test', () => {
         }); //Another way to obtain expect(res.body.name).toEqual(res.body_id);
       });
   });
-
   it('updates a person by id', () => {
     return createPerson('maria')
       .then((createdPerson) => {
