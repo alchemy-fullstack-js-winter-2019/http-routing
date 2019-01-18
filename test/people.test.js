@@ -13,7 +13,7 @@ const createPerson = (name) => {
     });
 };
 
-describe.skip('people', () => {
+describe('people', () => {
   beforeEach(done => {
     rimraf('./data/people', err => {
       done(err);
