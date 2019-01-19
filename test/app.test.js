@@ -225,7 +225,8 @@ describe('app tests', () => {
     let newPerson = {
       name: 'steve',
       age: 40,
-      favoriteColor: 'blue'
+      favoriteColor: 'blue',
+      favoriteCharacterId: 80
     };
     return createPerson('cari')
       .then(createdPerson => {
@@ -235,7 +236,19 @@ describe('app tests', () => {
           .send(newPerson);
       })
       .then(res => {
-        expect(res.body.name).toEqual('steve');
+        expect(res.body).toEqual({
+          _id: expect.any(String), 
+          age: 40,
+          favoriteCharacter: {
+            birthYear: 'unknown',
+            hairColor: 'brown',
+            height: '234',
+            mass: '136',
+            name: 'Tarfful'
+          },
+          favoriteColor: 'blue',
+          name: 'steve'
+        });
       });
   });
   it('updates a puppy with :id and returns the update', () => {

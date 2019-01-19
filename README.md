@@ -18,7 +18,7 @@ Node.js, JavaScript, [Jest](https://www.npmjs.com/package/jest), [shortid](https
 `npm run test:watch`
 `npm run lint`\
 `npm run pretest`\
-`npm run start`\
+`npm run start`
 
 ## License
 Standard [MIT](/LICENSE.md)
