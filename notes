@@ -62,3 +62,9 @@ return createPerson('ryan')
 
 
 
+function depthFist(node, depth = 0) {
+  console.log(' '.repeat(depth), node.data);
+  node.children.foreEach(child=> {
+    depthFirst(child)
+  })
+}

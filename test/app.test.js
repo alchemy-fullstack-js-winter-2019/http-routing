@@ -47,57 +47,64 @@ describe('app tests', () => {
       });
   });
 
-  // it('gets a list of people from our db', () => {
-  //   const namesToCreate = ['ryan', 'ryan1', 'ryan2', 'ryan3'];
+  it('gets a list of people from our db', () => {
+    const namesToCreate = ['ryan', 'ryan1', 'ryan2', 'ryan3'];
     
-  //   return Promise.all(namesToCreate.map(createPerson))
-  //     .then(() => {
-  //       return request(app)
-  //         .get('/people');
-  //     })
+    return Promise.all(namesToCreate.map(createPerson))
+      .then(() => {
+        return request(app)
+          .get('/people');
+      })
       
-  //     .then(({ body }) => {
-  //       expect(body).toHaveLength(4);
-  //     });
-  // });
-  // it('gets a person by id', () => {
-  //   return createPerson('jon')
-  //     .then(createdPerson => {
-  //       const id = createdPerson._id;
-  //       return request(app)
-  //         .get(`/people/${id}`);
-  //     })
-  //     .then(res => {
-  //       expect(res.body).toEqual({
-  //         _id: expect.any(String),
-  //         name: 'jon',
-  //         age: 100,
-  //         favoriteColor: 'red'
-  //       });
-  //     });
-  // });
-  // //find by id and update 
-  // it('find person by id and updates', ()=> {
-  //   return createPerson('juan')
-  //     .then(updated => {
-  //       return request(app)
-  //         .put(`/people/${updated._id}`)
-  //         .send({ name: 'johnny' });
-  //     })
-  //     .then(res => {
-  //       expect(res.body.name).toContain('johnny');
-  //     });   
-  // });
-  // it.only('finds by id and deletes', ()=> {
-  //   return createPerson('pedro')
-  //     .then(createdPerson => {
-  //       return request(app)
-  //         .delete(`/people/${ createdPerson._id }`);
-  //     })
-  //     .then(res=>{
-  //       expect(res.body).toEqual({ deleted: 1 });
-  //     });
-  // });
+      .then(({ body }) => {
+        expect(body).toHaveLength(4);
+      });
+  });
+  it('gets a person by id', () => {
+    return createPerson('jon')
+      .then(createdPerson => {
+        const id = createdPerson._id;
+        return request(app)
+          .get(`/people/${id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'jon',
+          age: 100,
+          favoriteColor: 'red'
+        });
+      });
+  });
+  //find by id and update 
+  it('find person by id and updates', ()=> {
+    return createPerson('juan')
+      .then(updated => {
+        return request(app)
+          .put(`/people/${updated._id}`)
+          .send({ name: 'johnny' });
+      })
+      .then(res => {
+        expect(res.body.name).toContain('johnny');
+      });   
+  });
+  it('finds by id and deletes', ()=> {
+    return createPerson('pedro')
+      .then(createdPerson => {
+        return request(app)
+          .delete(`/people/${ createdPerson._id }`);
+      })
+      .then(res=>{
+        expect(res.body).toEqual({ deleted: 1 });
+      });
+  });
+  it.only('Responds with Nada', ()=> {
+    return request(app)
+      .get('/other')
+      .then(res => {
+        expect(res.statusCode).toEqual(404);
+      });
+  });
   
 
 });
