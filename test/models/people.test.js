@@ -50,8 +50,8 @@ describe('people tests', () => {
             name: 'Luke Skywalker',
             height: '172',
             mass: '77',
-            hairColor: 'blond',
-            birthYear: '19BBY' },
+            hair_color: 'blond',
+            birth_year: '19BBY' },
           _id: expect.any(String)
         });
       });
@@ -84,6 +84,12 @@ describe('people tests', () => {
           job: 'web developer',
           pets: 'Kaiya & Kingsley',
           favoriteCharacterId: '1',
+          favoriteCharacter: {
+            name: 'Luke Skywalker',
+            height: '172',
+            mass: '77',
+            hair_color: 'blond',
+            birth_year: '19BBY' },
           _id: expect.any(String)
         });
       });
@@ -100,6 +106,12 @@ describe('people tests', () => {
             job: 'developer',
             pets: 'Kaiya and Kingsley',
             favoriteCharacterId: '1',
+            favoriteCharacter: {
+              name: 'Luke Skywalker',
+              height: '172',
+              mass: '77',
+              hair_color: 'blond',
+              birth_year: '19BBY' },
             id: id
           })
           .then(() => {
@@ -110,6 +122,12 @@ describe('people tests', () => {
                   name: 'Kate D',
                   job: 'developer',
                   pets: 'Kaiya and Kingsley',
+                  favoriteCharacter: {
+                    name: 'Luke Skywalker',
+                    height: '172',
+                    mass: '77',
+                    hair_color: 'blond',
+                    birth_year: '19BBY' },
                   favoriteCharacterId: '1',
                   _id: id
                 });

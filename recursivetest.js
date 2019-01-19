@@ -22,3 +22,19 @@
 // node = root.find('Nelson');
 
 // node = root.find('Foo');
+
+// .post('/', (req, res) => {
+//   res.end('');
+// })
+
+// .put('/tweets/:id', (req, res) => {
+//   res.end(req.params.id);
+// })
+
+// .delete('/tweets/:id', (req, res) => {
+//   res.end(req.params.id);
+// })
+
+// .get('/:id', (req, res) => {
+//   res.send({ id: req.params.id });
+// })

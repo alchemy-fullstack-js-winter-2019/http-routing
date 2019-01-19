@@ -76,7 +76,7 @@ describe('tweets test', () => {
   });
 
   it('gets a tweet by id and updates', () => {
-    return makeTweet('update this tweet')
+    return makeTweet('update this')
       .then(tweetMade => {
         const id = tweetMade._id;
         return request(app)
