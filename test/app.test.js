@@ -38,9 +38,6 @@ const createCat = (name, age = 2) => {
 // APP ------------------------------------------
 describe('app tests', () => {
   beforeAll(done => {
-    createPerson('sam');
-    createPuppy('stinker');
-    createCat('rabbit');
     mkdirp('./data/people', done);
     mkdirp('./data/puppies', done);
     mkdirp('./data/cats', done);
@@ -51,6 +48,22 @@ describe('app tests', () => {
     rimraf('./data/puppies/*', done);
     rimraf('./data/cats/*', done);
     done();
+  });
+  afterAll(done => {
+    createPuppy('Spot');
+    createCat('Tabby');
+    return request(app)
+      .post('/people')
+      .send({
+        name: 'Awesome person',
+        age: 24,
+        favoriteColor: 'phthalo blue',
+        favoriteCharacterId: 30
+      })
+      .then(res => {
+        res.body;
+        done();
+      });
   });
 
   // CREATE ------------------------------------------
