@@ -3,12 +3,12 @@ const rimraf = require('rimraf');
 const request = require('supertest');
 const app = require('../lib/app');
 
-const createPerson = (name, age = 10) => {
+const createPerson = name => {
   return request(app)
     .post('/people')
     .send({
       name,
-      age: age,
+      age: 10,
       favoriteColor: 'gold',
       favoriteCharacterId: 7
     })
@@ -52,12 +52,6 @@ describe('app tests', () => {
     rimraf('./data/cats/*', done);
     done();
   });
-  afterAll(done => {
-    createPerson('sam');
-    createPuppy('stinker');
-    createCat('rabbit');
-    done();
-  });
 
   // CREATE ------------------------------------------
   it('creates a person', () => {
@@ -65,12 +59,25 @@ describe('app tests', () => {
       .post('/people')
       .send({
         name: 'Steve Jobs',
-        age: 10,
-        favoriteColor: 'green',
+        age: 70,
+        favoriteColor: 'apple red',
         favoriteCharacterId: 8
       })
       .then(res => {
         expect(res.status).toEqual(200);
+        expect(res.body).toEqual({
+          _id: expect.any(String), 
+          age: 70,
+          favoriteCharacter: {
+            birthYear: 'unknown',
+            hairColor: 'n/a',
+            height: '97',
+            mass: '32',
+            name: 'R5-D4'
+          },
+          favoriteColor: 'apple red',
+          name: 'Steve Jobs'
+        });
       });
   });
   it('creates a puppy', () => {
@@ -152,10 +159,17 @@ describe('app tests', () => {
           .get(`/people/${_id}`)
           .then(res => {
             expect(res.body).toEqual({
-              name: 'cari',
+              _id: expect.any(String), 
               age: 10,
+              favoriteCharacter: {
+                birthYear: '47BBY',
+                hairColor: 'brown',
+                height: '165',
+                mass: '75',
+                name: 'Beru Whitesun lars'
+              },
               favoriteColor: 'gold',
-              _id
+              name: 'cari'
             });
           });
       });
