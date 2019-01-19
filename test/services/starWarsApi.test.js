@@ -1,4 +1,4 @@
-const getStarWarsChar = require('../../lib/services/starWarsApi');
+const { getStarWarsChar } = require('../../lib/services/starWarsApi');
 
 describe('starWarsApi service', () => {
   it('gets character by id', () => {

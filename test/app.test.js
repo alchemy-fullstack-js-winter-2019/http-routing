@@ -9,7 +9,8 @@ const createPerson = (name, age = 10) => {
     .send({
       name,
       age: age,
-      favoriteColor: 'gold'
+      favoriteColor: 'gold',
+      favoriteCharacterId: 7
     })
     .then(res => res.body);
 };
@@ -65,15 +66,11 @@ describe('app tests', () => {
       .send({
         name: 'Steve Jobs',
         age: 10,
-        favoriteColor: 'green'
+        favoriteColor: 'green',
+        favoriteCharacterId: 8
       })
       .then(res => {
-        expect(res.body).toEqual({
-          name: 'Steve Jobs',
-          age: 10,
-          favoriteColor: 'green',
-          _id: expect.any(String)
-        });
+        expect(res.status).toEqual(200);
       });
   });
   it('creates a puppy', () => {
