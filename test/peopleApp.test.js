@@ -5,15 +5,15 @@ const mkdirp = require('mkdirp');
 
 const createPerson = name => {
   return request(app)
-      .post('/people')
-      .send({
-        name: name,
-        age: 100,
-        favoriteColor: 'red',
-        favCharId: 1
-      })
+    .post('/people')
+    .send({
+      name: name,
+      age: 100,
+      favoriteColor: 'red',
+      favCharId: 1
+    })
     .then(res => res.body);
-}
+};
 
 describe('app tests', () => {
   beforeEach(done => {
@@ -42,38 +42,39 @@ describe('app tests', () => {
           favChar: 
             {
               'birth_year': '19BBY',
-              'hair_color': "blond",
-              'height': "172",
-              'mass': "77",
-              'name': "Luke Skywalker"
+              'hair_color': 'blond',
+              'height': '172',
+              'mass': '77',
+              'name': 'Luke Skywalker'
             }
-        }) 
-      })
-  })
+        }); 
+      });
+  });
 
   it('gets list of people created in db', () => {
-    const namesToCreate =['tt1','tt2', 'tt3', 'tt4'];
+    const namesToCreate = ['tt1', 'tt2', 'tt3', 'tt4'];
     return Promise.all(namesToCreate.map(createPerson))
       .then(() => {
         return request(app)
-          .get('/people')
+          .get('/people');
       })
       .then(({ body }) => {
         expect(body).toHaveLength(4);
       });
-  })
+  });
 
   it('gets a person by id', () => {
     return createPerson('teonna')
       .then(createdPerson => {
         const id = createdPerson._id;
         return request(app)
-          .get(`/people/${id}`)
+          .get(`/people/${id}`);
       })
       .then(res => {
         expect(res.body.name).toEqual('teonna');
-      })
-  })
+      });
+  });
+
   it('updates by id', () => {
     return createPerson('tt')  
       .then(createdPerson => {
@@ -86,8 +87,8 @@ describe('app tests', () => {
             favoriteColor: 'purple',
             id: id,
             favCharId: 1
-
           })
+          
           .then(() => {
             return request(app)
               .get(`/people/${id}`)
@@ -98,11 +99,11 @@ describe('app tests', () => {
                   favoriteColor: 'purple',
                   _id: id,
                   favCharId: 1
-                })
-            })
-          })
-      })
-  })
+                });
+              });
+          });
+      });
+  });
 
   it('deletes by id', () => {
     return createPerson ('deletedTeonna')
@@ -110,11 +111,9 @@ describe('app tests', () => {
         const id = createdPerson._id;
         return request(app)
           .delete(`/people/${id}`)
-      .then(res => {
-        expect(res.body).toEqual({ deleted: 1})
-      })
-      })
-  })
-})
-
-
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+          });
+      });
+  });
+});
