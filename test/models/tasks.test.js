@@ -95,5 +95,17 @@ describe('Tasks', () => {
           });
       });
   });
+
+  it('deletes a task with id', () => {
+    return makeTask('task to delete')
+      .then(returnedTask => {
+        const id = returnedTask._id;
+        return request(app)
+          .delete(`/tasks/${id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+          });
+      });
+  });
 });
 
