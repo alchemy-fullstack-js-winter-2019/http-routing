@@ -44,5 +44,18 @@ describe('Tasks', () => {
       });
   });
 
+  it('returns a list of all tasks', () => {
+    const taskList = ['task 2', 'task 3', 'task 4'];
+    return Promise.all(taskList.map(task => makeTask(task)
+    ))
+      .then(() => {
+        return request(app)
+          .get('/tasks');
+      })
+      .then(req => {
+        expect(req.body).toHaveLength(3);
+      });
+  });
+
 });
 
