@@ -57,5 +57,43 @@ describe('Tasks', () => {
       });
   });
 
+  it('returns a task by id', () => {
+    const newTask = makeTask('new Task');
+    const id = newTask._id;
+
+    return request(app)
+      .get(`/tasks/${id}`)
+      .then(res => {
+        expect(res.body[0]).toEqual({ 
+          title: 'new Task',
+          description: 'This is a task',
+          _id: expect.any(String) });
+      });
+  });
+
+  it('updates a task by id', () => {
+    return makeTask('new Task')
+      .then(newTask => {
+        const id = newTask._id;
+        return request(app)
+          .put(`/tasks/${id}`)
+          .send({
+            title: 'updated Task',
+            description: 'This is a task',
+            _id: id
+          })
+          .then(() => {
+            return request(app)
+              .get(`/tasks/${id}`)
+              .then(res => {
+                expect(res.body[0]).toEqual({
+                  title: 'updated Task',
+                  description: 'This is a task',
+                  _id: id
+                });
+              });
+          });
+      });
+  });
 });
 
