@@ -32,7 +32,6 @@ describe('app tests', () => {
         age: 100,
         favoriteColor: 'red',
         favCharId: 1
-
       })
       .then(res => {
         expect(res.body).toEqual({
@@ -40,8 +39,15 @@ describe('app tests', () => {
           age: 100,
           favoriteColor: 'red',
           _id: expect.any(String),
-          favCharId: 1
-        })
+          favChar: 
+            {
+              'birth_year': '19BBY',
+              'hair_color': "blond",
+              'height': "172",
+              'mass': "77",
+              'name': "Luke Skywalker"
+            }
+        }) 
       })
   })
 
