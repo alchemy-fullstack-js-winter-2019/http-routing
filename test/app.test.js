@@ -31,4 +31,21 @@ describe('app', () => {
       .get(`/people/${person.id}`)
       .then(res => expect(JSON.parse(res.text)).toEqual(person));
   });
+
+  it('updates a person by id', () => {
+    return request(app)
+      .put(`/people/${person.id}`)
+      .send({
+        id: 1,
+        name: 'shabster',
+        age: 36,
+        color: 'red'
+      })
+      .then(res => expect(JSON.parse(res.text)).toEqual({
+        id: 1,
+        name: 'shabster',
+        age: 36,
+        color: 'red'
+      }));
+  });
 });
