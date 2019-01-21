@@ -9,7 +9,8 @@ const createPerson = (name) => {
         .send({
             name: name,
             age: 100,
-            favoriteColor: 'red'
+            favoriteColor: 'red', 
+            favoriteCharacterId: 1
         })
         .then(res => res.body);
 
@@ -34,14 +35,11 @@ describe('it test various rest methods', () => {
                 name: 'Uncle bob',
                 age: 100,
                 favoriteColor: 'red',
+                favoriteCharacterId: 1
+
             })
             .then(res => {
-                expect(res.body).toEqual({
-                    name: 'Uncle bob',
-                    age: 100,
-                    favoriteColor: 'red', 
-                    _id: expect.any(String)   
-                });
+                expect(res.body.favoriteCharacter.name).toContain('Luke');
             });
     });
     it('can test the GET method', () => {
