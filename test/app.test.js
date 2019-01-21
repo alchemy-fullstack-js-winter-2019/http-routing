@@ -14,7 +14,6 @@ describe('app', () => {
       })
       .then(res => {
         person = JSON.parse(res.text);
-        console.log('person', person);
         done();
       });
   });
@@ -23,12 +22,13 @@ describe('app', () => {
     return request(app)
       .get('/people')
       .then(res => expect(JSON.parse(res.text)).toEqual({
-        1: {
-          id: 1,
-          name: 'shabz',
-          age: 26,
-          color: 'red'
-        }
+        1: person
       }));
+  });
+
+  it('gets person by id', () => {
+    return request(app)
+      .get(`/people/${person.id}`)
+      .then(res => expect(JSON.parse(res.text)).toEqual(person));
   });
 });
