@@ -48,4 +48,10 @@ describe('app', () => {
         color: 'red'
       }));
   });
+
+  it('deletes a person by id', () => {
+    return request(app)
+      .delete(`/people/${person.id}`)
+      .then(res => expect(JSON.parse(res.text)).toEqual({ deleted: 1 }));
+  });
 });
