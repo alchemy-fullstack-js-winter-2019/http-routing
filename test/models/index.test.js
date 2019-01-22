@@ -39,7 +39,6 @@ describe('Store', () => {
     });
   });
 
-  
   it('find all objects tracked by the store', done => {
     store.create({ item: 1 }, (err, item1) => {
       store.create({ item: 2 }, (err, item2) => {
