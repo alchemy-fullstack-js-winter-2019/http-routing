@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 
 let person = null;
-describe('app', () => {
+describe('people', () => {
   beforeEach(done => {
     request(app)
       .post('/people')
