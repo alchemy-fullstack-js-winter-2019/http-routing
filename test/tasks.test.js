@@ -62,4 +62,10 @@ describe('tasks', () => {
       })
       .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
   });
+
+  it('deletes a person by id', () => {
+    return request(app)
+      .delete(`/tasks/${task.id}`)
+      .then(res => expect(JSON.parse(res.text)).toEqual({ deleted: 1 }));
+  });
 });
