@@ -24,4 +24,10 @@ describe('tasks', () => {
         1: task
       }));
   });
+
+  it('gets task by id', () => {
+    return request(app)
+      .get(`/tasks/${task.id}`)
+      .then(res => expect(JSON.parse(res.text)).toEqual(task));
+  });
 });
