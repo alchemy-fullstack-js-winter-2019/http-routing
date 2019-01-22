@@ -9,11 +9,12 @@ const createPerson = (name) => {
     .send({
       name: name,
       age: '100',
-      favoriteColor: 'red'
+      favoriteColor: 'red',
+      favoriteCharacterId: 1
     });
 };
 
-describe('people', () => {
+describe.only('people', () => {
   beforeEach(done => {
     rimraf('./data/people', err => {
       done(err);
@@ -57,7 +58,7 @@ describe('people', () => {
       });
   });
 
-  it('can get a person by id', () =>{
+  it.only('can get a person by id', () =>{
     return createPerson('boohbah')
       .then(({ body }) => {
         return request(app)
@@ -68,7 +69,13 @@ describe('people', () => {
           name: 'boohbah',
           age: '100',
           favoriteColor: 'red',
-          _id: expect.any(String)
+          _id: expect.any(String),
+          favoriteCharacter: {
+            name: 'Luke Skywalker',
+            hairColor: 'blond',
+            height: '172',
+            mass: '77'
+          }
         });
       });
   });
