@@ -36,4 +36,19 @@ describe('tasks', () => {
       .get('/task/3')
       .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
   });
+
+  it('updates a person by id', () => {
+    return request(app)
+      .put(`/tasks/${task.id}`)
+      .send({
+        id: 1,
+        title: 'Something Else',
+        description: 'do domething else with something'
+      })
+      .then(res => expect(JSON.parse(res.text)).toEqual({
+        id: 1,
+        title: 'Something Else',
+        description: 'do domething else with something'
+      }));
+  });
 });
