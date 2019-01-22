@@ -37,7 +37,7 @@ describe('tasks', () => {
       .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
   });
 
-  it('updates a person by id', () => {
+  it('updates a task by id', () => {
     return request(app)
       .put(`/tasks/${task.id}`)
       .send({
@@ -63,9 +63,15 @@ describe('tasks', () => {
       .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
   });
 
-  it('deletes a person by id', () => {
+  it('deletes a task by id', () => {
     return request(app)
       .delete(`/tasks/${task.id}`)
       .then(res => expect(JSON.parse(res.text)).toEqual({ deleted: 1 }));
+  });
+
+  it('delete a task by id returns Not Found', () => {
+    return request(app)
+      .delete('/tasks/3')
+      .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
   });
 });
