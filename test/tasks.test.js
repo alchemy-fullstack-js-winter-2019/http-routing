@@ -74,4 +74,10 @@ describe('tasks', () => {
       .delete('/tasks/3')
       .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
   });
+
+  it('returns Not Found for unsupported route', () => {
+    return request(app)
+      .get('/tasks/task')
+      .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
+  });
 });

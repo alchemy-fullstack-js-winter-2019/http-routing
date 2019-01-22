@@ -78,4 +78,10 @@ describe('people', () => {
       .delete('/people/3')
       .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
   });
+
+  it('returns Not Found for unsupported route', () => {
+    return request(app)
+      .get('/people/person')
+      .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
+  });
 });
