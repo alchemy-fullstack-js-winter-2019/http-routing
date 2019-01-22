@@ -328,7 +328,7 @@ describe('app tests', () => {
 
   it('displays error when path not found', () => {
     return request(app)
-      .get('/boooooooooo')
+      .get('/error')
       .then(res => {
         expect(res.status).toEqual(404);
       });
