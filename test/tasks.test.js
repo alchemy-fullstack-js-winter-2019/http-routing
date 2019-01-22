@@ -51,4 +51,15 @@ describe('tasks', () => {
         description: 'do domething else with something'
       }));
   });
+
+  it('update returns Not Found', () => {
+    return request(app)
+      .put('/tasks/3')
+      .send({
+        id: 3,
+        title: 'blah',
+        description: 'blah blah'
+      })
+      .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
+  });
 });
