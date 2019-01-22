@@ -2,6 +2,20 @@ const request = require('supertest');
 const app = require('../lib/app');
 
 let person = null;
+const expectedPerson = {
+  id: 1,
+  name: 'shabz',
+  age: 26,
+  color: 'red',
+  faveCharId: 1,
+  faveChar: {
+    name: 'Luke Skywalker',
+    height: '172',
+    mass: '77',
+    hairColor: 'blond',
+    birthYear: '19BBY'
+  }
+};
 describe('people', () => {
   beforeEach(done => {
     request(app)
@@ -10,7 +24,8 @@ describe('people', () => {
         id: 1,
         name: 'shabz',
         age: 26,
-        color: 'red'
+        color: 'red',
+        faveCharId: 1
       })
       .then(res => {
         person = JSON.parse(res.text);
@@ -22,14 +37,14 @@ describe('people', () => {
     return request(app)
       .get('/people')
       .then(res => expect(JSON.parse(res.text)).toEqual({
-        1: person
+        1: expectedPerson
       }));
   });
 
   it('gets person by id', () => {
     return request(app)
       .get(`/people/${person.id}`)
-      .then(res => expect(JSON.parse(res.text)).toEqual(person));
+      .then(res => expect(JSON.parse(res.text)).toEqual(expectedPerson));
   });
 
   it('get person by id returns Not Found', () => {
@@ -45,13 +60,22 @@ describe('people', () => {
         id: 1,
         name: 'shabster',
         age: 36,
-        color: 'red'
+        color: 'red',
+        faveCharId: 9
       })
       .then(res => expect(JSON.parse(res.text)).toEqual({
         id: 1,
         name: 'shabster',
         age: 36,
-        color: 'red'
+        color: 'red',
+        faveCharId: 9,
+        faveChar: {
+          name: 'Biggs Darklighter', 
+          height: '183', 
+          mass: '84', 
+          hairColor: 'black', 
+          birthYear: '24BBY'
+        }
       }));
   });
   
