@@ -6,6 +6,9 @@ describe('getting star wars characters', () => {
       .then(character => {
         expect(character).toEqual({
           name: 'Luke Skywalker',
+          hairColor: 'blond',
+          height: '172',
+          mass: '77',
           birthYear: '19BBY'
         });
       });
