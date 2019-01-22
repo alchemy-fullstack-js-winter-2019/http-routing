@@ -1,10 +1,13 @@
-const { getCharacters } = require('../lib/services/starWarsApi');
+const { getCharacter } = require('../lib/services/starWarsApi');
 
 describe('getting star wars characters', () => {
   it('can get star wars', () => {
-    return getCharacters()
-      .then(characters => {
-        expect(characters).toHaveLength(10);
+    return getCharacter(1)
+      .then(character => {
+        expect(character).toEqual({
+          name: 'Luke Skywalker',
+          birthYear: '19BBY'
+        });
       });
   });
 });
