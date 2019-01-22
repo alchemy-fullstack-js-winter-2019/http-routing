@@ -30,4 +30,10 @@ describe('tasks', () => {
       .get(`/tasks/${task.id}`)
       .then(res => expect(JSON.parse(res.text)).toEqual(task));
   });
+
+  it('get task by id returns Not Found', () => {
+    return request(app)
+      .get('/task/3')
+      .then(res => expect(JSON.parse(res.text)).toEqual('Not Found'));
+  });
 });
