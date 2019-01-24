@@ -1,0 +1,41 @@
+{
+  "name": "http-routing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "start": "nodemon server.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/averagegalmarcy/http-routing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/averagegalmarcy/http-routing/issues"
+  },
+  "homepage": "https://github.com/averagegalmarcy/http-routing#readme",
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "jest": "^23.6.0",
+    "superagent": "^4.1.0"
+  },
+  "dependencies": {
+    "shortid": "^2.2.14",
+    "supertest": "^3.4.1"
+  }
+}
