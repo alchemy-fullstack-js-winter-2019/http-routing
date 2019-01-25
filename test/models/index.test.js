@@ -1,6 +1,6 @@
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
-const Store = require('../../lib/model/index');
+const Store = require('../../lib/models/index');
 
 describe('Store', () => {
   let store = null;
