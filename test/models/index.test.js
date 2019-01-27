@@ -72,10 +72,12 @@ describe('Store', () => {
   //Find By ID and Delete:
   it('deletes an object with an id', done => {
     store.create({ name: 'scratchy' }, (err, createdPerson) => {
-      store.findById(createdPerson._id, (err, createdPerson) => {
-        store.findByIdAndDelete(createdPerson._id, (err, removedPerson) => {
-          expect(err).toBeFalsy();
-          expect(removedPerson).toEqual({ deleted: 1 });
+      store.findByIdAndDelete(createdPerson._id, (err, removedPerson) => {
+        expect(err).toBeFalsy();
+        expect(removedPerson).toEqual({ deleted: 1 });
+        store.findById(createdPerson._id, (err, createdPerson) => {
+          expect(err).toBeTruthy();
+          expect(createdPerson).toBeFalsy();
           done();
         });
       });
