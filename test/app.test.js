@@ -96,3 +96,6 @@ describe('app tests', () => {
       });
   });
 });
+it('tells you when it cannot find a thing', () => {
+  
+})
