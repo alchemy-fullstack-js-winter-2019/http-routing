@@ -9,7 +9,8 @@ const createPerson = (name) => {
     .send({
       name: name,
       age: 100,
-      favoriteColor: 'red'
+      favoriteColor: 'red',
+      favoriteCharacterId: 1
     })
     .then(res => res.body);
 };
@@ -33,13 +34,15 @@ describe('app tests', () => {
       .send({
         name: 'Uncle bob',
         age: 100,
-        favoriteColor: 'red'
+        favoriteColor: 'red',
+        favoriteCharacterId: 1
       })
       .then(res => {
         expect(res.body).toEqual({
           name: 'Uncle bob',
           age: 100,
           favoriteColor: 'red',
+          favoriteCharacter: expect.any(Object),
           _id: expect.any(String)
         });
       });
@@ -67,6 +70,7 @@ describe('app tests', () => {
         expect(body).toEqual({
           name: 'ryan',
           age: 100,
+          favoriteCharacter: expect.any(Object),
           favoriteColor: 'red',
           _id
         });
