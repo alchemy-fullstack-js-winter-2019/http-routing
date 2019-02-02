@@ -1,0 +1,70 @@
+if(req.method ==="post")&& url.pathname ==='/peoples/'){
+
+}
+elf if(req.method === 'GET' && pathname ==='//'){
+
+}
+
+else if(req.method ==='GET' && pathname === ''){
+  const id = url.slice(0).split()
+}
+
+///TESTING
+return createPerson('ryan')
+  .then(createdPerson => {
+    const id = created person._id;
+    return request(app)
+      get(`/people/${id})
+      .then(res => {
+        expect(res.body.name). toEqual()
+      })
+  })
+
+
+  //TESTING 101
+    - Alot of times you will want different tests to solitify that your functions passes everything. 
+    ('it can add 1 and 2' => {
+      expect(add(1 + 2).toEqual(3))
+    }
+    ('it can add 1 and 2' => {
+      expect(add(1 + 6).toEqual(7))
+    }
+    ('it can add 1 and 2' => {
+      expect(add(8 + 6).toEqual(14))
+    }
+
+    function add(a,b){
+
+    }
+
+
+  --------
+  describe('add function'=> {
+    it('updates a person' ()=>{
+      return creatPerson('ryan'=> {
+        then(createdPerson => {
+          .put('/people/createdPerson._id')
+            return request(app)
+              .delete(`/people/createdPerson._id)
+        })
+      })
+    }
+  })
+  esle if(req.method === 'delete' &&)
+  const id =getId(url slice);
+  People.findByIdAndDelet(id, (err, data)=> {
+    response.end(JSON.stringify(]     q qqq   qqqqqqq                 QqqqqqqqqqqqQqqQQqqqQq  ))
+  })
+
+  //in class we skip over tests that we've already created but in the real world we retest for every function Ex: (find name by id) gets its own test and ( find name by id and update ) 
+
+  
+
+
+
+function depthFist(node, depth = 0) {
+  console.log(' '.repeat(depth), node.data);
+  node.children.foreEach(child=> {
+    depthFirst(child)
+  })
+}
