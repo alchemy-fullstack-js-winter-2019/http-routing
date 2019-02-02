@@ -1,7 +1,5 @@
-//NOTETOSELF:used to mkdirectories 
 const mkdirp = require('mkdirp');
 const  Store  = require('../../lib/models/index');
-//NOTETOSELF:used to remove files 
 const rimraf = require('rimraf');
 
 
@@ -66,19 +64,6 @@ describe('Store', () => {
         });
       });
     });
-    // create a bunch of objects (at least 5)
-    //  create ->
-    //    create ->
-    //      create ->
-    //        create ->
-    //          create ->
-    //            find ->
-    //              write our real tests (our expects)
-    //              expect an array with 5 items
-    //              expect an array containing the first item
-    //              expect an array containing the second item
-    //              .... to 5
-    //              done()
   });
 
   it('deletes an object with an id', done => {
@@ -106,13 +91,13 @@ describe('Store', () => {
       store.findByIdAndUpdate(typoCreated._id, { name: 'ryan' }, (err, updatedWithoutTypo) => {
         // -> -> expect updatedObject returned in callback
         expect(err).toBeFalsy();
-        expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id })
+        expect(updatedWithoutTypo).toEqual({ name: 'ryan', _id: typoCreated._id });
         // -> -> store.findById(createdObject._id)
         store.findById(typoCreated._id, (err, foundObj) => {
           // -> -> -> expect updated object
           expect(foundObj).toEqual(updatedWithoutTypo);
           done();
-        })
+        });
 
       });
     });

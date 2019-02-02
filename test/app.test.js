@@ -98,7 +98,7 @@ describe('app tests', () => {
         expect(res.body).toEqual({ deleted: 1 });
       });
   });
-  it.only('Responds with Nada', ()=> {
+  it('Responds with Nada', ()=> {
     return request(app)
       .get('/other')
       .then(res => {
